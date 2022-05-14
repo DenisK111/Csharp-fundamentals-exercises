@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace _6._Songs_Queue
 {
@@ -24,7 +26,38 @@ Constraints
 */
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var songQueue = new Queue<string>(Console.ReadLine().Split(", "));
+
+            while (songQueue.Count > 0)
+            {
+                string command = Console.ReadLine();
+                switch (command)
+                {
+                    case "Play":
+                        songQueue.Dequeue();
+
+                        break;
+                    
+                        
+                    case "Show":
+
+                        Console.WriteLine(String.Join(", ", songQueue));
+
+                        break;
+                    default:
+                        string song = command.Substring(4);
+                        if (songQueue.Contains(song))
+                            Console.WriteLine($"{song} is already contained!");
+                        else
+                            songQueue.Enqueue(song);
+                        break;
+
+                       
+                }
+            }
+
+            Console.WriteLine("No more songs!");
+
         }
     }
 }

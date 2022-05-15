@@ -55,7 +55,7 @@ namespace Snake_Game
                 }
 
               
-                Thread.Sleep(100);
+                Thread.Sleep(50);
                 Console.Clear();
 
             }
@@ -66,14 +66,15 @@ namespace Snake_Game
         public static void SetConsoleProperties()
         {
 
+            
             Console.WindowHeight = GlobalConstants.consoleHeight;
             Console.WindowWidth = GlobalConstants.consoleWidth;
             Console.BufferHeight = GlobalConstants.consoleHeight;
             Console.BufferWidth = GlobalConstants.consoleWidth;
             Console.CursorVisible = false;
             Borders.SetBorders();
-            // Thread movement = new Thread(new ThreadStart(Directions.Move));
-            // movement.Start();
+            Console.Title = "Snake";
+           
 
 
         }

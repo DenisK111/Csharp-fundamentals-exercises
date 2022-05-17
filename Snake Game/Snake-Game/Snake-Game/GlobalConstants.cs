@@ -13,11 +13,11 @@ namespace Snake_Game
 
         }
 
-        public static int consoleHeight = 40;
-        public static int consoleWidth = 100;
+        public static int consoleHeight = 20;
+        public static int consoleWidth = 60;
         public static bool cursorVisible = false;
-        public static string symbolOfHeadDot = "@";
-        public static string symbolOfBodyDot = "*";
+        public static string symbolOfHeadDot = "\U000025A0";
+        public static string symbolOfBodyDot = "\U000025A0";
         public static ConsoleKeyInfo initialDirection = new ConsoleKeyInfo((char)ConsoleKey.LeftArrow, ConsoleKey.LeftArrow, false, false, false);
         public static int initialCursorPositionX = consoleWidth / 2;
         public static int initialCursorPositionY = consoleHeight / 2;
@@ -27,7 +27,12 @@ namespace Snake_Game
         public static int rightBorder = consoleWidth;
         public static List<ConsoleKey> activeDirections = new List<ConsoleKey>() {ConsoleKey.RightArrow,ConsoleKey.LeftArrow,ConsoleKey.UpArrow,ConsoleKey.DownArrow };
         public static int initialBodyLength = 20;
-        public static string foodSymbol = "%";
+        public static string foodSymbol = "\U000025A0";
+        public static int delay = 120;
+        public static int highScore = 0;
+        public static string title = $"Snake  Highscore: {GlobalConstants.highScore} | Controls: Arrow Keys (UP , DOWN, LEFT, RIGHT) | Press SPACE to Pause | Press ESC to Exit";
+        public static string font = "Lucida Console";
+        public static short fontSize = 20;
     }
 
 }

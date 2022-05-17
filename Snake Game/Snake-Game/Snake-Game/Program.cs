@@ -6,8 +6,14 @@ namespace Snake_Game
     {
         static void Main(string[] args)
         {
-            GameEngine.Start();
             
+                GameEngine.Start();
+            // start new process
+            System.Diagnostics.Process.Start("Snake-Game.exe");
+
+            // close current process
+            Environment.Exit(0);
+
         }
     }
 }

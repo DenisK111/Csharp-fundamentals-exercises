@@ -13,8 +13,8 @@ namespace Snake_Game
         public Dot()
         {
             Random = new Random();
-            DotX = Random.Next(1, GlobalConstants.consoleWidth);
-            DotY = Random.Next(1, GlobalConstants.consoleHeight);
+            this.DotX = Random.Next(1, GlobalConstants.consoleWidth);
+            this.DotY = Random.Next(1, GlobalConstants.consoleHeight);
 
            
 

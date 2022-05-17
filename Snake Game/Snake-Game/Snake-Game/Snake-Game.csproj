@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Snake_Game</RootNamespace>
+    <ApplicationIcon>492snake_100855.ico</ApplicationIcon>
   </PropertyGroup>
 
 </Project>

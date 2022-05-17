@@ -11,6 +11,8 @@ namespace Snake_Game
     {
         public static void Start()
         {
+
+            bool newGame = false;
             SetConsoleProperties();
 
             Head head = new Head();
@@ -20,19 +22,26 @@ namespace Snake_Game
             CheckDotLocation(body, dot, head);
 
 
-            while (true)
+            DateTime nextCheck = DateTime.Now.AddMilliseconds(GlobalConstants.delay);
+            while (nextCheck > DateTime.Now)
             {
 
-                Directions.Move();
+                newGame = Directions.Move();
+                if (newGame)
+                    break;
                 MoveBody(body, head);
+                Console.Clear();
+                dot.Render(dot);
                 head.Render(head);
                 head.Render(body);
-                dot.Render(dot);
-                
 
-                CheckIfDead(head, body);
+
+                newGame = CheckIfDead(head, body);
+                if (newGame)
+                    break;
                 if (CheckIfEaten(head, dot))
                 {
+                    Console.Title = $"Snake  Highscore: {++GlobalConstants.highScore} | Controls: Arrow Keys (UP , DOWN, LEFT, RIGHT) | Press SPACE to Pause | Press ESC to Exit";
                     switch (Directions.CurrentDirection.Key)
                     {
                         case ConsoleKey.UpArrow:
@@ -54,9 +63,10 @@ namespace Snake_Game
                     CheckDotLocation(body, dot, head);
                 }
 
-              
-                Thread.Sleep(50);
-                Console.Clear();
+
+                Thread.Sleep(35);
+
+                nextCheck = DateTime.Now.AddMilliseconds(GlobalConstants.delay);
 
             }
 
@@ -66,15 +76,16 @@ namespace Snake_Game
         public static void SetConsoleProperties()
         {
 
-            
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            ConsoleHelper.SetCurrentFont(GlobalConstants.font,GlobalConstants.fontSize);
             Console.WindowHeight = GlobalConstants.consoleHeight;
             Console.WindowWidth = GlobalConstants.consoleWidth;
             Console.BufferHeight = GlobalConstants.consoleHeight;
             Console.BufferWidth = GlobalConstants.consoleWidth;
             Console.CursorVisible = false;
             Borders.SetBorders();
-            Console.Title = "Snake";
-           
+            Console.Title = GlobalConstants.title;
+
 
 
         }
@@ -108,7 +119,7 @@ namespace Snake_Game
 
         }
 
-        public static void CheckIfDead(Head head, List<BodyDot> body)
+        public static bool CheckIfDead(Head head, List<BodyDot> body)
         {
             int[][] allLengths = new int[body.Count][];
 
@@ -121,12 +132,12 @@ namespace Snake_Game
             {
                 if (head.HeadPostionX == item[0] && head.HeadPostionY == item[1])
                 {
-                    GameEnd();
+                    return GameEnd();
                 }
 
             }
 
-
+            return false;
         }
 
         public static bool CheckIfEaten(Head head, Dot dot)
@@ -139,27 +150,18 @@ namespace Snake_Game
         public static void CheckDotLocation(List<BodyDot> body, Dot dot, Head head)
         {
             Random random = new Random();
-            bool flag = true;
-            while (flag)
-            {
-                for (int i = 0; i < body.Count; i++)
-                {
-                    if (body[i].BodyDotPositionX == dot.DotX && body[i].BodyDotPositionY == dot.DotY)
-                    {
-                        dot.DotX = random.Next(1, GlobalConstants.consoleWidth);
-                        dot.DotY = random.Next(1, GlobalConstants.consoleHeight);
-                        break;
-                    }
 
-                    if (i == body.Count - 1 && head.HeadPostionX != dot.DotX && head.HeadPostionY != dot.DotY)
-                    {
-                        flag = false;
-                    }
-                }
+
+            while (body.FirstOrDefault(x => ((x.BodyDotPositionX == dot.DotX && x.BodyDotPositionY == dot.DotY) || (head.HeadPostionX == dot.DotX && head.HeadPostionY == dot.DotY))) != null)
+            {
+                dot.DotX = random.Next(1, GlobalConstants.consoleWidth);
+                dot.DotY = random.Next(1, GlobalConstants.consoleHeight);
             }
+
+
         }
 
-        public static void GameEnd()
+        public static bool GameEnd()
         {
 
 
@@ -167,10 +169,30 @@ namespace Snake_Game
             Console.BackgroundColor = ConsoleColor.White;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Coordinates.SetPosition(GlobalConstants.consoleWidth / 2 - 5, GlobalConstants.consoleHeight / 2);
+            Coordinates.SetPosition(GlobalConstants.consoleWidth / 2 - 5, GlobalConstants.consoleHeight / 2 - 2);
             Console.Write("GAME OVER");
-            Console.ReadKey();
-            Environment.Exit(0);
+            Coordinates.SetPosition(GlobalConstants.consoleWidth / 2 - 7, GlobalConstants.consoleHeight / 2);
+            Console.Write($"High Score: ");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write($"{GlobalConstants.highScore}");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Coordinates.SetPosition(GlobalConstants.consoleWidth / 2 - 6, GlobalConstants.consoleHeight / 2 + 2 );
+            Console.Write("Play Again?");
+            Coordinates.SetPosition(GlobalConstants.consoleWidth / 2 - 10, GlobalConstants.consoleHeight / 2 + 3);
+            Console.Write("y = yes     n = no");
+            ConsoleKeyInfo input = Console.ReadKey(true);
+            while (input.Key != ConsoleKey.Y)
+            {
+                if (input.Key == ConsoleKey.N)
+                {
+                    Environment.Exit(0);
+
+                }
+                input = Console.ReadKey(true);
+            }
+            Console.ResetColor();
+            return true;
+
 
         }
     }

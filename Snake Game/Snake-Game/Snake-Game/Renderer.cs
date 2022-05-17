@@ -20,7 +20,9 @@ namespace Snake_Game
             Coordinates.SetPosition();
             head.HeadPostionX = Coordinates.CursorPositionX;
             head.HeadPostionY = Coordinates.CursorPositionY;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(Head.SnakeHead);
+            Console.ResetColor();
         }
 
         public void Render(List<BodyDot> body)
@@ -28,7 +30,9 @@ namespace Snake_Game
             for (int i = 0; i < body.Count; i++)
             {
                 Coordinates.SetPosition(body[i].BodyDotPositionX, body[i].BodyDotPositionY);
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write(BodyDot.BodyDotSymbol);
+                Console.ResetColor();
             }
 
         }
@@ -37,7 +41,9 @@ namespace Snake_Game
         {
             
             Coordinates.SetPosition(dot.DotX, dot.DotY);
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.Write(dot.FoodDotSymbol);
+            Console.ResetColor();
             
 
         }

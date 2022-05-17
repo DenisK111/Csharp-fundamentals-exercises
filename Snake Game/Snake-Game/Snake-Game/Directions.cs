@@ -15,7 +15,7 @@ namespace Snake_Game
 
             public static List<ConsoleKey> ActiveDirections { get; set; } = GlobalConstants.activeDirections;
 
-        public static void Move()
+        public static bool Move()
         {
 
 
@@ -26,12 +26,24 @@ namespace Snake_Game
             // {
 
            var prevDirection = CurrentDirection;
+           
             if (Console.KeyAvailable)
             {
-                CurrentDirection = Console.ReadKey();
+                CurrentDirection = Console.ReadKey(true);
                 if (CurrentDirection.Key == ConsoleKey.Escape)
                 {
-                    GameEngine.GameEnd();
+                   return GameEngine.GameEnd();
+                }
+
+                if (CurrentDirection.Key == ConsoleKey.Spacebar)
+                {
+                    var input = Console.ReadKey(true);
+
+                    while (input.Key != ConsoleKey.Spacebar)
+                    {
+                        input = Console.ReadKey(true);
+                    }
+                    
                 }
 
                 
@@ -98,12 +110,12 @@ namespace Snake_Game
                 }
 
 
-           
 
+            return false;
 
 
                
-            //}
+            //
                 
             }
             

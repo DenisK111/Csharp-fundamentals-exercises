@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>_1.BoxOfT</RootNamespace>
+    <RootNamespace>_3.Generic_Scale</RootNamespace>
   </PropertyGroup>
 
 </Project>

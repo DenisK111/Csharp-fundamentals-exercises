@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace Doubly_Linked_List
 {
-    class DoublyLinkedList
+    class DoublyLinkedList<T> : IEnumerable<Node<T>>
     {
 
-        public Node Head { get; set; }
-        public Node Tail { get; set; }
+        public Node<T> Head { get; set; }
+        public Node<T> Tail { get; set; }
 
-        public Node PreviousHead { get; set; }
-        public Node PreviousTail { get; set; }
+        public Node<T> PreviousHead { get; set; }
+        public Node<T> PreviousTail { get; set; }
 
         public int Count { get; set; } = 0;
-        public void AddHead(Node node)
+        public void AddFirst(Node<T> node)
         {
 
             Count++;
@@ -35,7 +36,7 @@ namespace Doubly_Linked_List
 
         }
 
-        public void AddTail(Node node)
+        public void AddLast(Node<T> node)
         {
 
             Count++;
@@ -54,7 +55,7 @@ namespace Doubly_Linked_List
 
         }
 
-        public Node RemoveTail()
+        public Node<T> RemoveLast()
         {
             if (CheckIfEmpty())
             {
@@ -72,7 +73,7 @@ namespace Doubly_Linked_List
 
         }
 
-        public Node RemoveHead()
+        public Node<T> RemoveFirst()
         {
             if (CheckIfEmpty())
             {
@@ -89,20 +90,20 @@ namespace Doubly_Linked_List
 
         }
 
-        public void ForEach(Action<Node> action)
-        {
-            var currentNode = Head;
-            while (currentNode!= null)
-            {
-                action(currentNode);
-                currentNode = currentNode.Next;
-            }
+        //public void ForEach(Action<Node<T>> action)
+        //{
+        //    var currentNode = Head;
+        //    while (currentNode!= null)
+        //    {
+        //        action(currentNode);
+        //        currentNode = currentNode.Next;
+        //    }
 
-        }
+        //}
 
-        public Node[] ToArray()
+        public Node<T>[] ToArray()
         {
-            var array = new Node[Count];
+            var array = new Node<T>[Count];
             var currentNode = Head;
             int count = 0;
             while (currentNode != null)
@@ -124,6 +125,21 @@ namespace Doubly_Linked_List
             }
 
             return false;
+        }
+
+        public IEnumerator<Node<T>> GetEnumerator()
+        {
+            var currentNode = Head;
+            for (int i = 0; i < this.Count; i++)
+            {
+                yield return currentNode;
+                currentNode = currentNode.Next;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

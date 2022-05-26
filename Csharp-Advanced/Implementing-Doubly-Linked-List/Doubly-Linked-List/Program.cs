@@ -7,38 +7,39 @@ namespace Doubly_Linked_List
     {
         static void Main(string[] args)
         {
-            DoublyLinkedList list = new DoublyLinkedList();
+            DoublyLinkedList<string> list = new DoublyLinkedList<string>();
 
-            Node node = new Node(5);
-            list.AddHead(node);
-            list.AddHead(new Node(3));
-            list.AddHead(new Node(2));
-            list.AddTail(new Node(10));
-            list.AddTail(new Node(11));
-            list.AddTail(new Node(12));
-            list.RemoveTail();
-            list.RemoveTail();
+            Node<string> node = new Node<string>("5");
+            list.AddFirst(node);
+            list.AddFirst(new Node<string>("3.2"));
+            list.AddFirst(new Node<string>("2.2"));
+            list.AddLast(new Node<string>("10.2"));
+            list.AddLast(new Node<string>("11.2"));
+            list.AddLast(new Node<string>("12.1"));
+            list.RemoveLast();
+            list.RemoveLast();
             
-            list.AddTail(new Node(10));
-            list.RemoveHead();
+            list.AddLast(new Node<string>("10"));
+            list.RemoveFirst();
             
 
 
             var currentNode = list.Head;
-            // while (currentNode != null)
-            //{
-            //  Console.WriteLine(currentNode.Value);
-            //currentNode = currentNode.Next;
-            //}
-            list.ForEach(x => Console.WriteLine(x.Value));
+             while (currentNode != null)
+           {
+             Console.WriteLine(currentNode.Value);
+           currentNode = currentNode.Next;
+           }
+           // list.ForEach(x => Console.WriteLine(x.Value));
             var nodeList = list.ToArray();
             Console.WriteLine();
 
-            foreach (var item in nodeList)
+         
+
+            foreach (var item in list )
             {
                 Console.WriteLine(item.Value);
             }
-
             
             
         }

@@ -28,6 +28,16 @@ public class SetCover
 
     public static List<int[]> ChooseSets(IList<int[]> sets, IList<int> universe)
     {
-        // TODO: Implement the method
+        List<int[]> selectedSets = new List<int[]>();
+
+        while (universe.Count>0)
+        {
+            int[] longestSet = sets.OrderByDescending(x => x.Count(s => universe.Contains(s))).FirstOrDefault();
+            selectedSets.Add(longestSet);
+            sets.Remove(longestSet);
+            universe = universe.Where(x => !longestSet.Contains(x)).ToList();
+        }
+
+        return selectedSets;
     }
 }

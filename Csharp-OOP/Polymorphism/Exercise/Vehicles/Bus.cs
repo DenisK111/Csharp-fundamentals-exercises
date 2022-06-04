@@ -11,7 +11,7 @@ namespace Vehicles
         {
         }
 
-        public override double SummerModifier => summerModifier;
+        protected override double SummerModifier => summerModifier;
         public void DriveEmpty(double distance)
         {
             this.summerModifier = 0;

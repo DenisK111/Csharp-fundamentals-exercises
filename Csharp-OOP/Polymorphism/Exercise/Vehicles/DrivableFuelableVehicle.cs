@@ -18,7 +18,7 @@ namespace Vehicles
             FuelConsumptionPerKm = fuelConsumptionPerKm;
             TankCapacity = tankCapacity;
         }
-        public virtual double SummerModifier { get { return summerModifier; } protected set {} }
+        protected virtual double SummerModifier { get { return summerModifier; } set {} }
         public double FuelQty { get; private set; }
 
         public double FuelConsumptionPerKm { get; }

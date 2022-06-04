@@ -11,7 +11,7 @@ namespace Vehicles
         {
         }
 
-        public override double SummerModifier => 1.6;
+        protected override double SummerModifier => 1.6;
       
     }
 }

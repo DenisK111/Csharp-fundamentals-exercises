@@ -29,6 +29,10 @@ namespace CreateTree
             Console.WriteLine(string.Join(' ',myTree.BfsPrint()));
 
             Console.WriteLine(myTree.GetAsString());
+            var tree = myTree.SubTreesWithGivenSum(43)[0];
+            Console.WriteLine(new string(' ',50));
+            Console.WriteLine(String.Join(" ",tree.BfsPrint()));
+            return;
             Console.WriteLine(string.Join(" ",myTree.GetLeafKeys()));
             Console.WriteLine(string.Join(" ",myTree.GetMiddleKeys()));
             Console.WriteLine(myTree.GetDeepestLeftomostNode().Key);

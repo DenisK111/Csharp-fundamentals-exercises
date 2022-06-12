@@ -24,6 +24,7 @@ namespace Tree.Tests
                 "19 31",
                 "14 23",
                 "14 6"
+                
             };
 
             this._treeFactory = new TreeFactory();

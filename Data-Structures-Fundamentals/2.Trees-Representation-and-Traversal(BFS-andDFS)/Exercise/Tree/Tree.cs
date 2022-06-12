@@ -115,11 +115,9 @@
 
         public Tree<T> GetDeepestLeftomostNode()
         {
-            deepestLevel = -1;
-            deepestNode = null;
+            ResetStaticValues();
             var result = GetLeftMostNode(0, this);
-            deepestLevel = -1;
-            deepestNode = null;
+            ResetStaticValues();
             return result;
 
         }
@@ -212,30 +210,141 @@
 
         public List<T> GetLongestPath()
         {
-           
+            ResetStaticValues();
+            var returned =  LongestPath(0, this);
+            var list = returned.Skip(returned.Count - (deepestLevel + 1));
+            ResetStaticValues();
+            return list.Reverse<T>().ToList();
         }
 
         private List<T> LongestPath(int level, Tree<T> root)
         {
+
             var node = root;
             var list = new List<T>();
 
-            list.Add(this.Key);
+           
+
+            
             foreach (var child in node._children)
             {
-                list.AddRange(LongestPath(level + 1, child));
+
+                list.AddRange(child.LongestPath(level + 1, child));
             }
+
+            if (level > deepestLevel)
+            {
+                deepestNode = node;
+                deepestLevel = level;
+                while (deepestNode != null)
+                {
+                    list.Add(deepestNode.Key);
+                    deepestNode = deepestNode.Parent;
+                }
+
+            }
+
+
+            return list;
 
         }
 
         public List<List<T>> PathsWithGivenSum(int sum)
         {
-            throw new NotImplementedException();
+            var listOfChildren = GetLeafs();
+            List<List<T>> toBeReturned = new List<List<T>>();
+
+            foreach (var leaf in listOfChildren)
+            {
+                
+                List<T> currList = new List<T>();
+                var currLeaf = leaf;
+                while (currLeaf != null)
+                {
+                    currList.Add(currLeaf.Key);
+                    currLeaf = currLeaf.Parent;
+                }
+                
+
+                if (currList.Select(x=>int.Parse(x.ToString())).Sum().Equals(sum))
+                {
+                    toBeReturned.Add(currList.Reverse<T>().ToList());
+                }
+
+            }
+            return toBeReturned;
+
+            
+
         }
 
         public List<Tree<T>> SubTreesWithGivenSum(int sum)
         {
-            throw new NotImplementedException();
+            var node = this;
+
+            List<Tree<T>> toBeReturned = new List<Tree<T>>();
+            Queue<Tree<T>> queue = new Queue<Tree<T>>();
+            queue.Enqueue(node);
+
+            
+            while (queue.Count > 0)
+            {
+                int currSum = 0;
+                node = queue.Dequeue();
+                currSum += int.Parse(node.Key.ToString());
+                List<Tree<T>> children = new List<Tree<T>>();
+                foreach (var child in node._children)
+                {
+                    currSum += int.Parse(child.Key.ToString());
+                    children.Add(child);
+                    queue.Enqueue(child);
+                }
+
+                if (currSum == sum)
+                {
+                    toBeReturned.Add(new Tree<T>(node.Key, children.ToArray()));
+                }
+
+            }
+
+
+            return toBeReturned;
+        }
+
+        private void ResetStaticValues()
+        {
+
+            deepestLevel = -1;
+            deepestNode = null;
+        }
+
+        private List<Tree<T>> GetLeafs()
+        {
+            var node = this;
+
+            Queue<Tree<T>> queue = new Queue<Tree<T>>();
+
+            var set = new HashSet<Tree<T>>();
+
+            queue.Enqueue(node);
+
+            while (queue.Count > 0)
+            {
+                node = queue.Dequeue();
+                if (node._children.Count == 0)
+                {
+                    set.Add(node);
+                }
+
+                foreach (var child in node._children)
+                {
+                    queue.Enqueue(child);
+
+                }
+            }
+
+            return set.ToList();
+
         }
     }
 }

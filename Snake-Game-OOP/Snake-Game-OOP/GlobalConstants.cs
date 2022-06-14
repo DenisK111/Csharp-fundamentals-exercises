@@ -14,6 +14,7 @@ namespace Snake_Game_OOP
         public static readonly char dotSymbol = '\U000025A0';
         public static readonly string symbolOfHeadDot = "\U000025A0";
         public static readonly string symbolOfBodyDot = "\U000025A0";
+        public static readonly string foodSymbol = "\U000025A0";
         public static readonly ConsoleKeyInfo initialDirection = new ConsoleKeyInfo((char)ConsoleKey.LeftArrow, ConsoleKey.LeftArrow, false, false, false);
         public static readonly int initialCursorPositionX = consoleWidth / 2;
         public static readonly int initialCursorPositionY = consoleHeight / 2;
@@ -22,7 +23,6 @@ namespace Snake_Game_OOP
         public static readonly int leftBorder = 0;
         public static readonly int rightBorder = consoleWidth;
         public static readonly int initialBodyLength = 20;
-        public static readonly string foodSymbol = "\U000025A0";
         public static readonly int delay = 120;
         public static int highScore = 0;
         public static readonly string font = "Lucida Console";

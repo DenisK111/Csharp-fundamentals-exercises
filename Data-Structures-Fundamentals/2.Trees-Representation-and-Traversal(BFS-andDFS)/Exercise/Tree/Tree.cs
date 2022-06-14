@@ -115,10 +115,29 @@
 
         public Tree<T> GetDeepestLeftomostNode()
         {
-            ResetStaticValues();
-            var result = GetLeftMostNode(0, this);
-            ResetStaticValues();
-            return result;
+
+            var node = this;
+            Queue<Tree<T>> queue = new Queue<Tree<T>>();
+
+            queue.Enqueue(node);
+
+            while (queue.Count>0)
+            {
+                node = queue.Dequeue();
+
+                for (int i = node._children.Count-1; i >= 0; i--)
+                {
+                    queue.Enqueue(node._children[i]);
+                }
+
+            }
+
+            return node;
+
+          //бб  ResetStaticValues();
+          //  var result = GetLeftMostNode(0, this);
+           // ResetStaticValues();
+            //return result;
 
         }
 
@@ -210,11 +229,25 @@
 
         public List<T> GetLongestPath()
         {
-            ResetStaticValues();
-            var returned =  LongestPath(0, this);
-            var list = returned.Skip(returned.Count - (deepestLevel + 1));
-            ResetStaticValues();
-            return list.Reverse<T>().ToList();
+
+            List <T> list = new List<T>();
+
+            var node = GetDeepestLeftomostNode();
+
+            while (node!=null)
+            {
+                list.Add(node.Key);
+                node = node.Parent;
+            }
+
+            list.Reverse();
+            return list;
+            
+            //ResetStaticValues();
+            //var returned =  LongestPath(0, this);
+            //var list = returned.Skip(returned.Count - (deepestLevel + 1));
+            //ResetStaticValues();
+            //return list.Reverse<T>().ToList();
         }
 
         private List<T> LongestPath(int level, Tree<T> root)
@@ -280,35 +313,56 @@
 
         public List<Tree<T>> SubTreesWithGivenSum(int sum)
         {
-            var node = this;
+            /*   var node = this;
 
-            List<Tree<T>> toBeReturned = new List<Tree<T>>();
-            Queue<Tree<T>> queue = new Queue<Tree<T>>();
-            queue.Enqueue(node);
+               List<Tree<T>> toBeReturned = new List<Tree<T>>();
+               Queue<Tree<T>> queue = new Queue<Tree<T>>();
+               queue.Enqueue(node);
 
-            
-            while (queue.Count > 0)
+
+               while (queue.Count > 0)
+               {
+                   int currSum = 0;
+                   node = queue.Dequeue();
+                   currSum += int.Parse(node.Key.ToString());
+                   List<Tree<T>> children = new List<Tree<T>>();
+                   foreach (var child in node._children)
+                   {
+                       currSum += int.Parse(child.Key.ToString());
+                       children.Add(child);
+                       queue.Enqueue(child);
+                   }
+
+                   if (currSum == sum)
+                   {
+                       toBeReturned.Add(new Tree<T>(node.Key, children.ToArray()));
+                   }
+
+               }
+
+
+               return toBeReturned;*/
+            List<Tree<T>> list = new List<Tree<T>>();
+            SubTreesWithGivenSumDFS(sum, list, this);
+            return list;
+        
+        }
+
+        private int SubTreesWithGivenSumDFS(int targetSum,List<Tree<T>> list, Tree<T> node)
+        {
+            int currentSum = Convert.ToInt32(node.Key);
+            foreach (var child in node._children)
             {
-                int currSum = 0;
-                node = queue.Dequeue();
-                currSum += int.Parse(node.Key.ToString());
-                List<Tree<T>> children = new List<Tree<T>>();
-                foreach (var child in node._children)
-                {
-                    currSum += int.Parse(child.Key.ToString());
-                    children.Add(child);
-                    queue.Enqueue(child);
-                }
-
-                if (currSum == sum)
-                {
-                    toBeReturned.Add(new Tree<T>(node.Key, children.ToArray()));
-                }
-
+                currentSum += SubTreesWithGivenSumDFS(targetSum, list, child);
             }
 
+            if (currentSum==targetSum)
+            {
+                list.Add(node);
+            }
 
-            return toBeReturned;
+            return currentSum;
+
         }
 
         private void ResetStaticValues()

@@ -11,6 +11,8 @@ namespace CreateTree
     {
         static void Main(string[] args)
         {
+            
+            
             int n = int.Parse(Console.ReadLine());
             TreeFactory factory = new TreeFactory();
             Dictionary<int, List<int>> inputValues = new Dictionary<int, List<int>>();

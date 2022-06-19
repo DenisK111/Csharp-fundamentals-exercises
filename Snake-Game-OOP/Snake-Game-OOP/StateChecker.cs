@@ -26,7 +26,7 @@ namespace Snake_Game_OOP
 
         public bool CheckIfDead(Body snake, IGameEnd gameEnd)
         {
-            foreach (var item in snake.BodyOutput.Where(x => x.Value.Color == GlobalConstants.bodyDotColor))
+            foreach (var item in snake.BodyOutput.Where(x => x.Value.Color == GlobalConstants.bodyDotColor && x != snake.BodyOutput.Last.Value))
             {
                 if (snake.BodyOutput.First.Value.Value.X == item.Value.X && snake.BodyOutput.First.Value.Value.Y == item.Value.Y)
                 {
@@ -42,6 +42,7 @@ namespace Snake_Game_OOP
         {
             foreach (var item in snake.BodyOutput)
             {
+                
                 if (food.X == item.Value.X && food.Y == item.Value.Y)
                 {
                     return true;

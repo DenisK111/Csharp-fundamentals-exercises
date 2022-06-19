@@ -17,6 +17,18 @@ namespace Snake_Game_OOP.ConsoleSettings
             Console.SetCursorPosition(GlobalConstants.consoleWidth / 2 - 13, GlobalConstants.consoleHeight / 2);
             Console.Write("Press \"Space\" to continue");
 
+            var input = Console.ReadKey(true);
+
+            while (input.Key != ConsoleKey.Spacebar)
+            {
+                input = Console.ReadKey(true);
+            }
+
+            Console.Clear();
+
+            
+
         }
-    }
+
+           }
 }

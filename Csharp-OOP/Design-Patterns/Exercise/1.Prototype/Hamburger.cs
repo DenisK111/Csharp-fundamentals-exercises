@@ -18,7 +18,7 @@ namespace _1.Prototype
             this.bread = bread;
             this.sauces = sauces;
         }
-
+        public string Meat { get { return meat; } set { meat = value; } }
         public override HamburgerPrototype Clone()
         {
             return this.MemberwiseClone() as HamburgerPrototype;

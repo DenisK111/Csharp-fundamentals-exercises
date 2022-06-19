@@ -14,8 +14,10 @@ namespace Snake_Game_OOP.ConsoleSettings
             Console.Clear();
         }
 
-        public void Render(Body body)
+        public void Render(Body body,ConsoleKeyInfo direction)
         {
+
+
             foreach (var item in body.BodyOutput)
             {
             Console.SetCursorPosition(item.Value.X, item.Value.Y);
@@ -23,6 +25,10 @@ namespace Snake_Game_OOP.ConsoleSettings
             Console.Write(item.Value.Symbol);
 
             }
+
+            
+            Console.SetCursorPosition(body.BodyOutput.Last.Value.Value.X, body.BodyOutput.Last.Value.Value.Y);
+            Console.Write(' ');
         }
 
         public void Render(IFood food)

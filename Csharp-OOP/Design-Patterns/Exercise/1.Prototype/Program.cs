@@ -19,21 +19,20 @@ namespace _1.Prototype
 
 
             menu["FishBurger"] = new Hamburger("Fish", "Lettuce", "Bun", "Ketchup");
-            Hamburger copyBurger = menu["FishBurger"].Clone() as Hamburger;
+            Hamburger copyBurger = porkburger.Clone() as Hamburger;
 
-            Console.WriteLine(copyBurger);
+            Console.WriteLine(porkburger.Meat);
+            Console.WriteLine(copyBurger.Meat);
 
-            
+            copyBurger.Meat = "Fish";
 
-            Console.WriteLine(new string('-',50));
+            Console.WriteLine(porkburger.Meat);
+            Console.WriteLine(copyBurger.Meat);
 
-           // Hamburger copy = menu["Fishburger"].Clone() as Hamburger;
 
-            foreach (var (key,value) in menu)
-            {
-                Console.WriteLine(key);
-                Console.WriteLine(value);
-            }
+
+
+
 
 
         }

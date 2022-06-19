@@ -13,8 +13,9 @@ namespace Snake_Game_OOP
     public class GameEngine
     {
 
-        public void Start(Body snake, IRenderer renderer, IProperties properties, IGameEnd gameEnd, ISoundPlayer soundPlayer,IPauser pauser)
+        public void Start(Body snake, IRenderer renderer, IProperties properties, IGameEnd gameEnd, ISoundPlayer soundPlayer, IPauser pauser)
         {
+            renderer.Clear();
             GlobalConstants.highScore = 0;
             StateChecker checker = new StateChecker();
             properties.SetProperties();
@@ -27,8 +28,9 @@ namespace Snake_Game_OOP
                 DateTime nextCheck = DateTime.Now.AddMilliseconds(GlobalConstants.delay);
                 while (nextCheck > DateTime.Now)
                 {
-                    if (direction.Move(snake, gameEnd,pauser)) return;
-                    renderer.Render(snake);
+                    if (direction.Move(snake, gameEnd, pauser)) return;
+                    Thread.Sleep(GlobalConstants.renderDelay);
+                    renderer.Render(snake,direction.CurrentDirect);
                     renderer.Render(food);
                     if (checker.CheckIfEaten<IDot>(snake.BodyOutput.First, food))
                     {
@@ -40,8 +42,6 @@ namespace Snake_Game_OOP
                         properties.SetTitle();
                     }
                     if (checker.CheckIfDead(snake, gameEnd)) return;
-                    Thread.Sleep(GlobalConstants.renderDelay);
-                    renderer.Clear();
                 }
             }
 

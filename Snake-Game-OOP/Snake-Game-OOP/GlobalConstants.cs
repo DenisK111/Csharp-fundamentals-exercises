@@ -8,8 +8,8 @@ namespace Snake_Game_OOP
 {
     public abstract class GlobalConstants
     {
-        public static readonly int consoleHeight = 30;
-        public static readonly int consoleWidth = 60;
+        public static readonly int consoleHeight = 20;
+        public static readonly int consoleWidth = 50;
         public static readonly bool cursorVisible = false;
         public static readonly char dotSymbol = '\U000025A0';
         public static readonly string symbolOfHeadDot = "\U000025A0";
@@ -26,7 +26,7 @@ namespace Snake_Game_OOP
         public static readonly int delay = 120;
         public static int highScore = 0;
         public static readonly string font = "Lucida Console";
-        public static readonly short fontSize = 20;
+        public static readonly short fontSize = 40;
         public static readonly ConsoleColor bodyDotColor = ConsoleColor.Yellow;
         public static readonly ConsoleColor headColor = ConsoleColor.Blue;
         public static readonly ConsoleColor foodColor = ConsoleColor.Red;
@@ -40,6 +40,7 @@ namespace Snake_Game_OOP
              ConsoleKey.DownArrow };
         public static readonly int renderDelay = 35;
         public static readonly int gameEndDelay = 150;
+
 
     }
 }

@@ -37,12 +37,8 @@ namespace Snake_Game_OOP
                 if (currentDirection.Key == ConsoleKey.Spacebar)
                 {
                     pauser.Pause();
-                    var input = Console.ReadKey(true);
-                   
-                    while (input.Key != ConsoleKey.Spacebar)
-                    {
-                        input = Console.ReadKey(true);
-                    }
+                    
+                    
 
                 }
 
@@ -54,6 +50,7 @@ namespace Snake_Game_OOP
 
             }
                 moveOnce(body, body.BodyOutput.Last);
+           
             return false;
         }
         private void checkDirections(ConsoleKeyInfo prevDirection)
@@ -86,8 +83,8 @@ namespace Snake_Game_OOP
         }
         private void moveOnce(Body body,LinkedListNode<LinkedListNode<IDot>> currNode)
         {
+                        
 
-           
             while (currNode.Previous != null)
             {
                 currNode.Value.Value.X = currNode.Previous.Value.Value.X;
@@ -112,8 +109,7 @@ namespace Snake_Game_OOP
 
             else if (currentDirection.Key == ConsoleKey.LeftArrow)
             {
-                currNode.Value.Value.X = currNode.Value.Value.X == GlobalConstants.leftBorder ? GlobalConstants.rightBorder - 1 : --currNode.Value.Value.X;
-              
+                currNode.Value.Value.X = currNode.Value.Value.X == GlobalConstants.leftBorder ? GlobalConstants.rightBorder - 1 : --currNode.Value.Value.X;              
             }
 
             else if (currentDirection.Key == ConsoleKey.RightArrow)
@@ -121,6 +117,8 @@ namespace Snake_Game_OOP
                 currNode.Value.Value.X = currNode.Value.Value.X == GlobalConstants.rightBorder -1 ? GlobalConstants.leftBorder : ++currNode.Value.Value.X;
 
             }
+
+          
         }
 
 

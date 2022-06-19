@@ -8,7 +8,7 @@ namespace Snake_Game_OOP.Contracts
 {
    public interface IRenderer
     {
-        void Render(Body body);
+        void Render(Body body, ConsoleKeyInfo direction);
         void Render(IFood food);
 
         void Clear();

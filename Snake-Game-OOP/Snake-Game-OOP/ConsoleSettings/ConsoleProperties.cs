@@ -16,10 +16,11 @@ namespace Snake_Game_OOP.ConsoleSettings
           ConsoleHelper.SetCurrentFont(GlobalConstants.font, GlobalConstants.fontSize);
             Console.WindowHeight = GlobalConstants.consoleHeight;
             Console.WindowWidth = GlobalConstants.consoleWidth;
-            Console.BufferHeight = GlobalConstants.consoleHeight;
+            Console.BufferHeight = GlobalConstants.consoleHeight+1;
             Console.BufferWidth = GlobalConstants.consoleWidth;
             Console.CursorVisible = GlobalConstants.cursorVisible;
             SetTitle();
+            
 
         }
 
@@ -28,5 +29,7 @@ namespace Snake_Game_OOP.ConsoleSettings
             Console.Title = $"Snake  Highscore: {GlobalConstants.highScore++} | Controls: Arrow Keys (UP , DOWN, LEFT, RIGHT) | Press SPACE to Pause | Press ESC to Exit";
             
         }
+
+       
     }
 }

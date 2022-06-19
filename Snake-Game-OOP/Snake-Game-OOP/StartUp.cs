@@ -15,11 +15,11 @@ namespace Snake_Game_OOP
                 IRenderer renderer = new ConsoleRenderer();
                 IProperties consoleProperties = new ConsoleProperties();
                 Body snake = new Body(initialCoordinates);
-                GameEngine engine = new GameEngine();
                 ISoundPlayer soundPlayer = new ConsoleSoundPlayer(GlobalConstants.soundFilePath);
                 ISoundPlayer endSoundPlayer = new ConsoleSoundPlayer(GlobalConstants.endGameSoundFilePath);
                 IGameEnd gameEnd = new ConsoleGameEnd(endSoundPlayer);
                 IPauser pauser = new ConsolePauser();
+                GameEngine engine = new GameEngine();
                 engine.Start(snake, renderer, consoleProperties,gameEnd,soundPlayer,pauser);
             }
 

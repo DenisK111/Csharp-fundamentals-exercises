@@ -8,6 +8,7 @@ namespace Snake_Game_OOP
 {
     public abstract class GlobalConstants
     {
+        public static int highScore = 0;
         public static readonly int consoleHeight = 20;
         public static readonly int consoleWidth = 50;
         public static readonly bool cursorVisible = false;
@@ -24,7 +25,6 @@ namespace Snake_Game_OOP
         public static readonly int rightBorder = consoleWidth;
         public static readonly int initialBodyLength = 20;
         public static readonly int delay = 120;
-        public static int highScore = 0;
         public static readonly string font = "Lucida Console";
         public static readonly short fontSize = 40;
         public static readonly ConsoleColor bodyDotColor = ConsoleColor.Yellow;

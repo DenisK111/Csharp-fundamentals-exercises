@@ -10,19 +10,10 @@ namespace Snake_Game_OOP
     public class StateChecker
     {
 
-        public bool CheckIfEaten<T>(LinkedListNode<LinkedListNode<IDot>> head, IFood food)
-        {
-
-            if (head.Value.Value.X == food.X && head.Value.Value.Y == food.Y)
-            {
-
-                return true;
-            }
-
-            return false;
-
-
-        }
+        public bool CheckIfEaten<T>(LinkedListNode<LinkedListNode<IDot>> head, IFood food) =>
+            head.Value.Value.X == food.X 
+            && head.Value.Value.Y == food.Y; 
+        
 
         public bool CheckIfDead(Body snake, IGameEnd gameEnd)
         {

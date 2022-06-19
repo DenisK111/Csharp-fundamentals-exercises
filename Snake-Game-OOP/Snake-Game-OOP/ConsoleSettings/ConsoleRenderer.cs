@@ -14,7 +14,7 @@ namespace Snake_Game_OOP.ConsoleSettings
             Console.Clear();
         }
 
-        public void Render(Body body,ConsoleKeyInfo direction)
+        public void Render(Body body)
         {
 
 

@@ -15,11 +15,11 @@ namespace Snake_Game_OOP
             Y = y;
         }
 
+
+
+        public int X { get; set; }
+        public int Y { get; set; }
         public virtual char Symbol => GlobalConstants.dotSymbol;
-
         public virtual ConsoleColor Color => GlobalConstants.bodyDotColor;
-
-        public int X { get ; set; }
-        public int Y { get ; set; }
     }
 }

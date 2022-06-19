@@ -30,7 +30,7 @@ namespace Snake_Game_OOP
                 {
                     if (direction.Move(snake, gameEnd, pauser)) return;
                     Thread.Sleep(GlobalConstants.renderDelay);
-                    renderer.Render(snake,direction.CurrentDirect);
+                    renderer.Render(snake);
                     renderer.Render(food);
                     if (checker.CheckIfEaten<IDot>(snake.BodyOutput.First, food))
                     {

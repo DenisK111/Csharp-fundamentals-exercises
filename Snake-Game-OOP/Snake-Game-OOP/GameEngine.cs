@@ -21,7 +21,14 @@ namespace Snake_Game_OOP
             properties.SetProperties();
             Random random = new Random();
             IFood food = new Food(random.Next(GlobalConstants.leftBorder, GlobalConstants.rightBorder), random.Next(GlobalConstants.upperBorder, GlobalConstants.lowerBorder));
+            checker.CheckIfFoodLocationIsInsideSnake(food,snake);
             Direction direction = new Direction();
+            if (GlobalConstants.test==1)
+            {
+                /// Fix this!
+                GlobalConstants.test = 2;
+                return;
+            }
 
             while (true)
             {
@@ -36,9 +43,7 @@ namespace Snake_Game_OOP
                     {
                         snake.AddDot(direction.CurrentDirect, snake.BodyOutput.Last);
                         soundPlayer.Play();
-                        food = new Food(random.Next(GlobalConstants.leftBorder, GlobalConstants.rightBorder), random.Next(GlobalConstants.upperBorder, GlobalConstants.lowerBorder));
-                        while (checker.CheckIfFoodLocationIsInsideSnake(food, snake))
-                            food = new Food(random.Next(GlobalConstants.leftBorder, GlobalConstants.rightBorder), random.Next(GlobalConstants.upperBorder, GlobalConstants.lowerBorder));
+                        checker.CheckIfFoodLocationIsInsideSnake(food, snake);
                         properties.SetTitle();
                     }
                     if (checker.CheckIfDead(snake, gameEnd)) return;

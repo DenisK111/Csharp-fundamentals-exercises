@@ -12,7 +12,8 @@ namespace Snake_Game_OOP
 
         public bool CheckIfEaten<T>(LinkedListNode<LinkedListNode<IDot>> head, IFood food) =>
             head.Value.Value.X == food.X 
-            && head.Value.Value.Y == food.Y; 
+            && head.Value.Value.Y == food.Y;
+        private Random random = new Random();
         
 
         public bool CheckIfDead(Body snake, IGameEnd gameEnd)
@@ -29,18 +30,20 @@ namespace Snake_Game_OOP
             return false;
         }
 
-        public bool CheckIfFoodLocationIsInsideSnake(IFood food, Body snake)
+        public void CheckIfFoodLocationIsInsideSnake(IFood food, Body snake)
         {
             foreach (var item in snake.BodyOutput)
             {
                 
                 if (food.X == item.Value.X && food.Y == item.Value.Y)
                 {
-                    return true;
+                    food.X = random.Next(GlobalConstants.leftBorder, GlobalConstants.rightBorder);
+                    food.Y = random.Next(GlobalConstants.upperBorder, GlobalConstants.lowerBorder);
+                    CheckIfFoodLocationIsInsideSnake(food, snake);
                 }
             }
 
-            return false;
+            return;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Snake_Game_OOP.ConsoleSettings
           ConsoleHelper.SetCurrentFont(GlobalConstants.font, GlobalConstants.fontSize);
             Console.WindowHeight = GlobalConstants.consoleHeight;
             Console.WindowWidth = GlobalConstants.consoleWidth;
-            Console.BufferHeight = GlobalConstants.consoleHeight+1;
+            Console.BufferHeight = GlobalConstants.consoleHeight;
             Console.BufferWidth = GlobalConstants.consoleWidth;
             Console.CursorVisible = GlobalConstants.cursorVisible;
             SetTitle();

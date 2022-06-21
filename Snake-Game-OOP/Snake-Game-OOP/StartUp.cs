@@ -6,15 +6,15 @@ using System;
 
 namespace Snake_Game_OOP
 {
-   public class StartUp
+    public class StartUp
     {
         static void Main(string[] args)
         {
-            IServiceProvider serviceProvider = new DependencyConfigurator().Configure();    
+            IServiceProvider serviceProvider = new DependencyConfigurator().Configure();
             while (true)
-            {               
-                GameEngine engine = serviceProvider.GetRequiredService<GameEngine>();
-                engine.Start();
+            {
+                serviceProvider.GetRequiredService<GameEngine>().Start();
+
             }
 
 

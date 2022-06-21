@@ -11,19 +11,37 @@ using System.Media;
 namespace Snake_Game_OOP
 {
     public class GameEngine
-    {
 
-        public void Start(Body snake, IRenderer renderer, IProperties properties, IGameEnd gameEnd, ISoundPlayer soundPlayer, IPauser pauser)
+    {
+        private Body snake;
+        private IRenderer renderer;
+        private IProperties properties;
+        private IGameEnd gameEnd;
+        private ISoundPlayer soundPlayer;
+        private IPauser pauser;
+        private Random random = new Random();
+
+        public GameEngine(Body snake, IRenderer renderer, IProperties properties, IGameEnd gameEnd, ISoundPlayer soundPlayer, IPauser pauser)
+        {
+            this.snake = snake;
+            this.renderer = renderer;
+            this.properties = properties;
+            this.gameEnd = gameEnd;
+            this.soundPlayer = soundPlayer;
+            this.pauser = pauser;
+
+        }
+
+        public void Start()
         {
             renderer.Clear();
             GlobalConstants.highScore = 0;
             StateChecker checker = new StateChecker();
             properties.SetProperties();
-            Random random = new Random();
-            IFood food = new Food(random.Next(GlobalConstants.leftBorder, GlobalConstants.rightBorder), random.Next(GlobalConstants.upperBorder, GlobalConstants.lowerBorder));
-            checker.CheckIfFoodLocationIsInsideSnake(food,snake);
+            IFood food = new Food();
+            checker.CheckIfFoodLocationIsInsideSnake(food, snake);
             Direction direction = new Direction();
-            if (GlobalConstants.test==1)
+            if (GlobalConstants.test == 1)
             {
                 /// Fix this!
                 GlobalConstants.test = 2;

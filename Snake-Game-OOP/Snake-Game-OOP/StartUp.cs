@@ -1,4 +1,5 @@
-﻿using Snake_Game_OOP.ConsoleSettings;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Snake_Game_OOP.ConsoleSettings;
 using Snake_Game_OOP.Contracts;
 using System;
 
@@ -9,21 +10,23 @@ namespace Snake_Game_OOP
     {
         static void Main(string[] args)
         {
+            IServiceProvider serviceProvider = new DependencyConfigurator().Configure();    
+            GameEngine engine = serviceProvider.GetRequiredService<GameEngine>();
             while (true)
-            {
-                InitialCoordinates initialCoordinates = new InitialCoordinates(GlobalConstants.initialCursorPositionX, GlobalConstants.initialCursorPositionY);
-                IRenderer renderer = new ConsoleRenderer();
-                IProperties consoleProperties = new ConsoleProperties();
-                Body snake = new Body(initialCoordinates);
-                ISoundPlayer soundPlayer = new ConsoleSoundPlayer(GlobalConstants.soundFilePath);
-                ISoundPlayer endSoundPlayer = new ConsoleSoundPlayer(GlobalConstants.endGameSoundFilePath);
-                IGameEnd gameEnd = new ConsoleGameEnd(endSoundPlayer);
-                IPauser pauser = new ConsolePauser();
-                GameEngine engine = new GameEngine();
-                engine.Start(snake, renderer, consoleProperties,gameEnd,soundPlayer,pauser);
+            {               
+                engine.Start();
             }
 
 
         }
     }
 }
+
+//InitialCoordinates initialCoordinates = new InitialCoordinates();
+//  Body snake = new Body(initialCoordinates);
+//IRenderer renderer = new ConsoleRenderer();
+//IProperties consoleProperties = new ConsoleProperties();
+//ISoundPlayer soundPlayer = new ConsoleSoundPlayer(GlobalConstants.soundFilePath);
+// ISoundPlayer endSoundPlayer = new ConsoleSoundPlayer(GlobalConstants.endGameSoundFilePath);
+// IGameEnd gameEnd = new ConsoleGameEnd(endSoundPlayer);
+// IPauser pauser = new ConsolePauser();

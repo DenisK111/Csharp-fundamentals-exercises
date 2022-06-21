@@ -9,9 +9,10 @@ namespace Snake_Game_OOP
 {
    public class Food : Dot, IFood
     {
+       
         
 
-        public Food(int x, int y) : base(x, y)
+        public Food() : base(new Random().Next(GlobalConstants.leftBorder, GlobalConstants.rightBorder), new Random().Next(GlobalConstants.upperBorder, GlobalConstants.lowerBorder))
         {
         }
 

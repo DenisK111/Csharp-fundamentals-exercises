@@ -8,10 +8,12 @@ namespace Snake_Game_OOP
 {
    public class InitialCoordinates
     {
-        public InitialCoordinates(int cursorPositionX, int cursorPositionY)
+  
+
+        public InitialCoordinates()
         {
-            CursorPositionX = cursorPositionX;
-            CursorPositionY = cursorPositionY;
+            CursorPositionX = GlobalConstants.initialCursorPositionX;
+            CursorPositionY = GlobalConstants.initialCursorPositionY;
         }
 
         public int CursorPositionX { get; set; }

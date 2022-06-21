@@ -9,5 +9,7 @@ namespace Snake_Game_OOP
    public interface ISoundPlayer
     {
         void Play();
+
+        void Play(bool gameOver);
     }
 }

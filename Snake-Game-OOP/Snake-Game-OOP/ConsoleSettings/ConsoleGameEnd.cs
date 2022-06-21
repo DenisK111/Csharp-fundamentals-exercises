@@ -18,7 +18,8 @@ namespace Snake_Game_OOP.ConsoleSettings
         }
         public bool End()
         {
-            soundPlayer.Play();
+            
+            soundPlayer.Play(true);
             Thread.Sleep(GlobalConstants.gameEndDelay);
             Console.BackgroundColor = ConsoleColor.White;
             Console.Clear();

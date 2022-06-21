@@ -11,9 +11,9 @@ namespace Snake_Game_OOP
         static void Main(string[] args)
         {
             IServiceProvider serviceProvider = new DependencyConfigurator().Configure();    
-            GameEngine engine = serviceProvider.GetRequiredService<GameEngine>();
             while (true)
             {               
+                GameEngine engine = serviceProvider.GetRequiredService<GameEngine>();
                 engine.Start();
             }
 

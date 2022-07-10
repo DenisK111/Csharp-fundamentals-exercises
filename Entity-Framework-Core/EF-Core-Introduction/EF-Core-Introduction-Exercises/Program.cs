@@ -15,7 +15,7 @@ namespace SoftUni
         //ALWAYS CHECK CONNECTION STRING
         static void Main(string[] args)
         {
-            var db = new SoftUniContext();
+           using var db = new SoftUniContext();
             // Console.WriteLine(GetEmployeesFullInformation(db));
             // Console.WriteLine(GetEmployeesWithSalaryOver50000(db));
             // Console.WriteLine(GetEmployeesFromResearchAndDevelopment(db));
@@ -29,8 +29,171 @@ namespace SoftUni
             // Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(db));
             // Console.WriteLine(RemoveTown(db));
             // Console.WriteLine(DeleteProjectById(db));
+            // Console.WriteLine(flippingMatrix(null));
+
+            var arr = new List<List<int>>
+            {
+                new List<int>{1,0,1,0,0,0},
+                new List<int>{1,1,1,0,0,0},
+                new List<int>{1,0,1,2,0,1},
+                new List<int>{0,0,0,4,2,2},
+                new List<int>{0,0,0,4,0,4},
+                new List<int>{0,0,0,0,0,0},
+
+            };
+
+            var arr2 = new List<List<int>>
+            {
+                new List<int>{-9,0,-9,0,0,0},
+                new List<int>{-9,-9,-9,0,0,0},
+                new List<int>{-9,0,-9,8,0,1},
+                new List<int>{1,4,1,6,-2,2},
+                new List<int>{1,3,2,6,0,4},
+                new List<int>{1,2,3,0,0,0},
+
+            };
+            Console.WriteLine(hourglassSum(arr2));
+
+            /*
+             * -9 -9-9 1 1 1
+                0 -9 0 4 3 2
+               -9 -9-9 1 2 3
+                0 0 8 6 6 0
+                0 0 0 -2 0 0
+                0 0 1 2 4 0*/
+
+        }
+
+        public static int hourglassSum(List<List<int>> arr)
+        {
+            /*
+             * 1 1 1 0 0 0
+               0 1 0 0 0 0
+               1 1 1 0 0 0
+               0 0 2 4 4 0
+               0 0 0 2 0 0
+               0 0 1 2 4 0*/
+
+           
+
+            int sum = 0;
+            int bestSum = 0;
+            for (int row = 0; row < arr.Count-2; row++)
+            {
+                for (int col = 0; col < arr.Count - 2; col++)
+                {
+                    sum = Instance(arr, row, col);
+                    if (sum>bestSum)
+                    {
+                        bestSum = sum;
+                    }
+
+                }
+            }
+
+            return bestSum;
 
 
+           
+        }
+
+        public static int Instance(List<List<int>> arr,int row,int col)
+        {
+            int sum = 0;
+            for (int iRow = row; iRow <= row+2; iRow++)
+            {
+                if (iRow == row+1)
+                {
+                    sum += arr[col + 1][iRow];
+                    continue;
+                }
+                for (int iCol = col; iCol <= col+2; iCol++)
+                {
+                    sum += arr[iCol][iRow];
+                }
+            }
+
+            return sum;
+            
+        }
+
+
+        public static int flippingMatrix(List<List<int>> matrix)
+        {
+            matrix = new List<List<int>>
+            {
+                new List<int>{112,56,15,62},
+                new List<int>{42,125,78,98},
+                new List<int>{83,56,101,114},
+                new List<int>{119,49,43,108},
+
+            };
+
+            /*
+             * 112 42 83 119
+               56 125 56 49
+               15 78 101 43
+               62 98 114 108*/
+
+            for (int col = 0; col < matrix.Count; col++)
+            {
+            int sum1, sum2 = sum1 = 0;
+                for (int row = 0; row < matrix.Count / 2; row++)
+                {
+                    sum1 += matrix[col][row];
+                }
+
+                for (int row = matrix.Count/2; row < matrix.Count; row++)
+                {
+                    sum2 += matrix[col][row];
+                }
+
+                if (sum2>sum1)
+                {
+                    for (int i = 0; i < matrix.Count / 2; i++)
+                    {
+                        int temp = matrix[col][i];
+                        matrix[col][i] = matrix[col][matrix.Count - 1 - i];
+                        matrix[col][matrix.Count - 1 - i] = temp;
+                    }
+                }
+            }
+
+            for (int row = 0; row < matrix.Count / 2; row++)
+            {
+                int sum1, sum2 = sum1 = 0;
+                for (int col = 0; col < matrix.Count / 2; col++)
+                {
+                    sum1+= matrix[col][row];
+                }
+
+                for (int col = matrix.Count / 2; col < matrix.Count; col++)
+                {
+                    sum2 += matrix[col][row];
+                }
+
+                if (sum2 > sum1)
+                {
+                    for (int i = 0; i < matrix.Count / 2; i++)
+                    {
+                        int temp = matrix[i][row];
+                        matrix[i][row] = matrix[matrix.Count - 1 - i][row];
+                        matrix[matrix.Count - 1 - i][row] = temp;
+                    }
+                }
+            }
+
+            int result = 0;
+            for (int col = 0; col < matrix.Count / 2; col++)
+            {
+                for (int row = 0; row < matrix.Count / 2; row++)
+                {
+                    result += matrix[col][row];
+                }
+            }
+
+
+            return result;
         }
 
         public static string DeleteProjectById(SoftUniContext context)

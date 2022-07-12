@@ -10,7 +10,23 @@
             
             int n = int.Parse(Console.ReadLine()!);
             var array = new int[n];
-            PrintAllVectors(array,array.Length-1,true);
+            //PrintAllVectors(array,array.Length-1,true);
+            PrintAllVectorsCorrect(array,0);
+        }
+
+        private static void PrintAllVectorsCorrect(int[] array,int index)
+        {
+            if (index>= array.Length)
+            {
+                Console.WriteLine(String.Join("",array));
+                return;
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                array[index] = i;
+
+                 PrintAllVectorsCorrect(array, index + 1);
+            }
         }
 
         public static void PrintAllVectors(int[] array, int index,bool print)

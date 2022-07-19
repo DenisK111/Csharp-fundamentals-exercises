@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Move-Down-Right", "Move-Dow
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LCS", "LCS\LCS.csproj", "{30BC6D59-2A8A-40EC-AC9D-C7AABFF5E08C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeLines", "TimeLines\TimeLines.csproj", "{74281B7B-3C26-44DF-8C1A-4D0A820B902F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{30BC6D59-2A8A-40EC-AC9D-C7AABFF5E08C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30BC6D59-2A8A-40EC-AC9D-C7AABFF5E08C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30BC6D59-2A8A-40EC-AC9D-C7AABFF5E08C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74281B7B-3C26-44DF-8C1A-4D0A820B902F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74281B7B-3C26-44DF-8C1A-4D0A820B902F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74281B7B-3C26-44DF-8C1A-4D0A820B902F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74281B7B-3C26-44DF-8C1A-4D0A820B902F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="Users">
+		<complexType>
+			<sequence>
+				<element maxOccurs="unbounded" name="User">
+					<complexType>
+						<sequence>
+							<element name="firstName" type="string" />
+							<element name="lastName" type="string" />
+							<element name="age" type="int" />
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

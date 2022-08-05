@@ -17,7 +17,7 @@ namespace RealEstateConsoleApp
 
 
 
-            const int optionsCount = 3;
+            const int optionsCount = 4;
             while (true)
             {
                 Reset();

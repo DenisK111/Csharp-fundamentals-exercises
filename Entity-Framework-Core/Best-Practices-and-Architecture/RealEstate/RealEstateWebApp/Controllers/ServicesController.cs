@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RealEstateWebApp.Models;
 using Services.Contracts;
+using Services.Models.ExportDto;
+using System.Collections.Generic;
 
 namespace RealEstateWebApp.Controllers
 {
@@ -29,6 +31,12 @@ namespace RealEstateWebApp.Controllers
         {
             decimal result = service.GetAvaragePriceBySquareMeters(from, to);
             return View(new PropertyResultViewModel() { result = result});
+        }
+
+        public IActionResult AvgaragePricesPerNeighbourhood()
+        {
+            IEnumerable< ExportAvgPricePerSqmDto> result = service.GetAvaragePricePerSqmPerDistrict();
+            return View(result);
         }
     }
 }

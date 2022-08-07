@@ -1,14 +1,13 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Property";
-   
+
 }
 
 
-<form class= "align-content-lg-center" asp-controller="Services" asp-action="PropertyResult" method="get" >
-  <label for="from">From:</label><br>
-  <input type="number" id="from" name="from"><br>
-  <label for="to">To:</label><br>
-  <input type="number" id="to" name="to">
-  <button class= "alert-success">Submit</button>
+<form class="align-content-lg-center" asp-controller="Services" asp-action="PropertyResult" method="get">
+    <label for="from">From:</label><br>
+    <input type="number" id="from" name="from"><br>
+    <label for="to">To:</label><br>
+    <input type="number" id="to" name="to"><br>
+    <div><button class="alert-success btn btn-primary">Submit</button></div>
 </form>

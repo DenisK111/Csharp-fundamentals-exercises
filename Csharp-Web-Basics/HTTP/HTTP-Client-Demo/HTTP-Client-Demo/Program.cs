@@ -8,6 +8,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace HttpClientDemo
 {
@@ -35,6 +37,7 @@ namespace HttpClientDemo
                     var matches = Regex.Matches(requestString, @"username=(?<username>[\w]+)&password=(?<tweet>[\w]+)");
                     string html = String.Empty;
                     string response = String.Empty;
+                    string contentType = string.Empty;
                     if (matches.Any())
                     {
 
@@ -43,7 +46,7 @@ namespace HttpClientDemo
 
                         using (var context = new TweetContext())
                         {
-                            var sb = new StringBuilder();
+                           
                             context.Database.EnsureCreated();
                             context.Add(new TweetModel()
                             {
@@ -52,15 +55,12 @@ namespace HttpClientDemo
                             });
 
                             context.SaveChanges();
-                            var count = 1;
+                            
                             var tweets = context.Tweets.ToList();
+                            var output = Serialise(tweets);
 
-                            foreach (var entry in tweets)
-                            {
-                                sb.AppendLine($"{count++}. Name :{entry.Name}<br/>Tweet:{entry.Tweet}<br/><br/>");
-                            }
-
-                            html = $"<div>{sb.ToString()}</div>";
+                            contentType = "Content-Type: text/json; charset=utf-8";
+                            html = $"<div>{output}</div>";
                           
 
                         }
@@ -72,6 +72,7 @@ namespace HttpClientDemo
                     }
                     else
                     {
+                        contentType = "Content-Type: text/html; charset=utf-8";
                         html = $"<h1>Hello from DenisServer {DateTime.Now}</h1>" +
                       $"<form action=/tweet method=post><input name=username /><input name=password />" +
                       $"<input type=submit /></form>";
@@ -82,8 +83,8 @@ namespace HttpClientDemo
                     response = "HTTP/1.1 200 OK" + NewLine +
                           "Server: DenisServer" + NewLine +
                           // "Location: https://www.google.com" + NewLine +
-                          "Content-Type: text/html; charset=utf-8" + NewLine +
-                          "Content-Disposition: attachment; filename=niki.txt" + NewLine +
+                          contentType + NewLine +
+                         // "Content-Disposition: attachment; filename=niki.txt" + NewLine +
                           "Content-Lenght: " + html.Length + NewLine +
                           NewLine +
                           html + NewLine;
@@ -108,6 +109,14 @@ namespace HttpClientDemo
 
             // var html = await httpClient.GetStringAsync(url);
             // Console.WriteLine(html);
+        }
+
+        public static  string Serialise(IEnumerable<TweetModel> model)
+        {
+
+
+            return JsonConvert.SerializeObject(model, Formatting.Indented);
+
         }
     }
 }

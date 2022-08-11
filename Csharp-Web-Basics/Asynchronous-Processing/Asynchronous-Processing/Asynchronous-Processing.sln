@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronometer", "Chronometer\Chronometer.csproj", "{BFDA2F61-E1EF-4185-9090-9E5512BAA30B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFDA2F61-E1EF-4185-9090-9E5512BAA30B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFDA2F61-E1EF-4185-9090-9E5512BAA30B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFDA2F61-E1EF-4185-9090-9E5512BAA30B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFDA2F61-E1EF-4185-9090-9E5512BAA30B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2EDB8D5-D7A9-4CC4-9068-F185571285A7}
+	EndGlobalSection
+EndGlobal

@@ -1,8 +1,10 @@
 ﻿using SIS.HTTP.Common;
+using SIS.HTTP.Cookies;
 using SIS.HTTP.Enums;
 using SIS.HTTP.Exceptions;
 using SIS.HTTP.Extensions;
 using SIS.HTTP.Headers;
+using SIS.HTTP.Sessions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace SIS.HTTP.Requests
             this.FormData = new Dictionary<string, object>();
             this.QueryData = new Dictionary<string, object>();
             this.Headers = new HttpHeaderCollection();
-
+            this.CookieCollection = new HttpCookieCollection();
             this.ParseRequest(requestString);
         }
 
@@ -38,6 +40,9 @@ namespace SIS.HTTP.Requests
 
         public HttpRequestMethod RequestMethod { get; private set; }
 
+        public IHttpCookieCollection CookieCollection { get; }
+        public IHttpSession Session { get; set; } = null!;
+
         private void ParseQueryParameters()
         {
             var query = this.Url.Split("?", StringSplitOptions.RemoveEmptyEntries);
@@ -50,7 +55,7 @@ namespace SIS.HTTP.Requests
             var queryString = query[1];
 
             MapQueryString(QueryData, queryString);
-            
+
 
         }
 
@@ -70,7 +75,7 @@ namespace SIS.HTTP.Requests
                 var key = split[0];
                 var value = split[1];
 
-                this.QueryData[key] = new 
+                this.QueryData[key] = new
                 {
                     Key = key,
                     Value = value
@@ -106,6 +111,7 @@ namespace SIS.HTTP.Requests
             this.ParseRequestPath(requestLine);
 
             this.ParseHeaders(splitRequestContent.Skip(1).ToArray());
+
             this.ParseCookies();
             this.ParseRequestParameters(splitRequestContent[splitRequestContent.Length - 1]);
         }
@@ -118,16 +124,32 @@ namespace SIS.HTTP.Requests
 
         private void ParseCookies()
         {
-           
+
+            if (!Headers.ContainsHeader("Cookie"))
+                return;
+
+            var value = Headers.GetHeader("Cookie").Value;
+
+
+            var cookies = value.Split("; ");
+
+            foreach (var cookie in cookies)
+            {
+                var kvp = cookie.Split("=");
+
+                CookieCollection.AddCookie(new HttpCookie(kvp[0], kvp[1]));
+            }
+
+
         }
 
         private void ParseHeaders(string[] strings)
         {
             foreach (var header in strings)
             {
-                var split = header.Split(": ",StringSplitOptions.RemoveEmptyEntries);
+                var split = header.Split(": ", StringSplitOptions.RemoveEmptyEntries);
 
-                if (split.Length!=2)
+                if (split.Length != 2)
                 {
                     continue;
                 }

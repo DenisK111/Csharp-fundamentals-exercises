@@ -1,4 +1,5 @@
-﻿using SIS.HTTP.Enums;
+﻿using SIS.HTTP.Cookies;
+using SIS.HTTP.Enums;
 using SIS.HTTP.Headers;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,12 @@ namespace SIS.HTTP.Responses
         HttpResponseStatusCode StatusCode { get; set; }
         IHttpHeaderCollection Headers { get;  }
 
+        IHttpCookieCollection CookieCollection { get; }
         byte[] Content { get; set; }
 
         void AddHeader(HttpHeader header);
         byte[] GetBytes();
+
+        void AddCookie(HttpCookie cookie);
     }
 }

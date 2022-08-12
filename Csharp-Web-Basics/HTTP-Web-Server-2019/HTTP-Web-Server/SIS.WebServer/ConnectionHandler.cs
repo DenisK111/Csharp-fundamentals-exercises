@@ -1,7 +1,9 @@
 ﻿using SIS.HTTP.Common;
+using SIS.HTTP.Cookies;
 using SIS.HTTP.Exceptions;
 using SIS.HTTP.Requests;
 using SIS.HTTP.Responses;
+using SIS.HTTP.Sessions;
 using SIS.WebServer.Results;
 using SIS.WebServer.Routing;
 using System;
@@ -38,8 +40,9 @@ namespace SIS.WebServer
                 if (httpRequest != null)
                 {
                     Console.WriteLine($"Processing: {httpRequest.RequestMethod} {httpRequest.Path}...");
-
+                    var sessionId = this.SetRequestSession(httpRequest);
                     var httpResponse = this.HandleRequest(httpRequest);
+                    this.SetResponseSession(httpResponse, sessionId);
                    await this.PrepareResponseAsync(httpResponse);
                 }
             }
@@ -103,6 +106,35 @@ namespace SIS.WebServer
             }
 
             return new HttpRequest(result.ToString());
+        }
+
+        private string SetRequestSession(IHttpRequest httpRequest)
+        {
+
+            string sessionId = null!;
+
+            if (httpRequest.CookieCollection.ContainsCookie(HttpSessionStorage.SessionCookieKey))
+            {
+                var cookie = httpRequest.CookieCollection.GetCookie(HttpSessionStorage.SessionCookieKey);
+                sessionId = cookie.Value;
+                httpRequest.Session = HttpSessionStorage.GetSession(sessionId);
+            }
+
+            else
+            {
+                sessionId = Guid.NewGuid().ToString();
+                httpRequest.Session = HttpSessionStorage.GetSession(sessionId);
+            }
+
+            return sessionId;
+        }
+
+        private void SetResponseSession(IHttpResponse httpResponse,string sessionId)
+        {
+            if (sessionId!=null)
+            {
+                httpResponse.AddCookie(new HttpCookie(HttpSessionStorage.SessionCookieKey, sessionId));
+            }
         }
     }
 }

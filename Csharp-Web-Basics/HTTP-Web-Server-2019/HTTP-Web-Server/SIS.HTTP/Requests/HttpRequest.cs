@@ -135,7 +135,7 @@ namespace SIS.HTTP.Requests
 
             foreach (var cookie in cookies)
             {
-                var kvp = cookie.Split("=");
+                var kvp = cookie.Split("=",2);
 
                 CookieCollection.AddCookie(new HttpCookie(kvp[0], kvp[1]));
             }

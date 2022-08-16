@@ -1,4 +1,5 @@
-﻿using SIS.HTTP.Requests;
+﻿using MVCFramework;
+using SIS.HTTP.Requests;
 using SIS.HTTP.Responses;
 using SIS.WebServer.Results;
 using System;
@@ -7,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTTP_Web_Server
+namespace HTTP_Web_Server.Controllers
 {
-    public class HomeController
+    public class TestController : Controller
     {
-        public IHttpResponse Index(IHttpRequest request)
+        public IHttpResponse Result(IHttpRequest request)
         {
-            string content = "<h1>Hello, World!</h1>";
+            string content = "<h1>Result</h1>";
 
             return new HtmlResult(content, SIS.HTTP.Enums.HttpResponseStatusCode.Ok);
         }

@@ -10,7 +10,7 @@ namespace SIS.WebServer.Results
 {
     public class RedirectResult : HttpResponse
     {
-        public RedirectResult(string location) : base(HttpResponseStatusCode.SeeOther)
+        public RedirectResult(string location) : base(string.Empty,HttpResponseStatusCode.SeeOther)
         {
             this.Headers.AddHeader(new HTTP.Headers.HttpHeader("Location", location));
         }

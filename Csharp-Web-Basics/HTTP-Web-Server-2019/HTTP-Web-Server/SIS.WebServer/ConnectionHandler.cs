@@ -69,9 +69,11 @@ namespace SIS.WebServer
 
         private IHttpResponse HandleRequest(IHttpRequest httpRequest)
         {
-            if (!this.serverRoutingTable.Contains(httpRequest.RequestMethod,httpRequest.Path))
+            string requestPath = httpRequest.Path.ToLower();
+
+            if (!this.serverRoutingTable.Contains(httpRequest.RequestMethod,requestPath))
             {
-                return new TextResult($"Route with method {httpRequest.RequestMethod} and path \"{httpRequest.Path}\" not found.", HTTP.Enums.HttpResponseStatusCode.NotFound);
+                return new TextResult($"Route with method {httpRequest.RequestMethod} and path \"{requestPath}\" not found.", HTTP.Enums.HttpResponseStatusCode.NotFound);
             }
 
             return this.serverRoutingTable.Get(httpRequest.RequestMethod, httpRequest.Path).Invoke(httpRequest);

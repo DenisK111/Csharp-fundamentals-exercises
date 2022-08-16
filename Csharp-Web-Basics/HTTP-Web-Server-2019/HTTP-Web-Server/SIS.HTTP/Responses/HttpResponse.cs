@@ -17,12 +17,15 @@ namespace SIS.HTTP.Responses
             this.Headers = new HttpHeaderCollection();
             this.Content = new byte[0];
             this.CookieCollection = new HttpCookieCollection();
+            this.Headers.AddHeader(new HttpHeader("Date", $"{DateTime.UtcNow:r}"));
         }
 
-        public HttpResponse(HttpResponseStatusCode statusCode) : this()
+        public HttpResponse(string content, HttpResponseStatusCode statusCode) : this()
         {
             CoreValidator.ThrowIfNull(StatusCode, nameof(statusCode));
             this.StatusCode = statusCode;
+            this.Content = Encoding.UTF8.GetBytes(content);
+            this.Headers.AddHeader(new HttpHeader("Content-Length", $"{this.Content.Length}"));
         }
 
         public HttpResponseStatusCode StatusCode { get; set; }

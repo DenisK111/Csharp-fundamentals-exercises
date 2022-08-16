@@ -9,7 +9,7 @@ namespace SIS.HTTP.Cookies
 {
     public class HttpCookieCollection : IHttpCookieCollection
     {
-        string HttpCookieStringSeparator = "\r\n";
+        string HttpCookieStringSeparator = "; ";
         private Dictionary<string, HttpCookie> cookies;
 
         public HttpCookieCollection()

@@ -69,14 +69,14 @@ namespace SIS.WebServer
 
         private IHttpResponse HandleRequest(IHttpRequest httpRequest)
         {
-            string requestPath = httpRequest.Path.ToLower();
-
-            if (!this.serverRoutingTable.Contains(httpRequest.RequestMethod,requestPath))
+            string requestPath = httpRequest.Path;
+            var tryGetKey = this.serverRoutingTable.TryGet(httpRequest.RequestMethod, requestPath);
+            if (!tryGetKey.isContained)
             {
                 return new TextResult($"Route with method {httpRequest.RequestMethod} and path \"{requestPath}\" not found.", HTTP.Enums.HttpResponseStatusCode.NotFound);
             }
 
-            return this.serverRoutingTable.Get(httpRequest.RequestMethod, httpRequest.Path).Invoke(httpRequest);
+            return this.serverRoutingTable.Get(httpRequest.RequestMethod, tryGetKey.key!).Invoke(httpRequest);
         }
 
         private async Task<IHttpRequest> ReadRequst()

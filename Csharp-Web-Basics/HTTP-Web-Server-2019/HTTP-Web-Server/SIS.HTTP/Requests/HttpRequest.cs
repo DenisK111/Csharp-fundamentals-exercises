@@ -75,7 +75,7 @@ namespace SIS.HTTP.Requests
                 var key = split[0];
                 var value = split[1];
 
-                this.QueryData[key] = new
+                queryData[key] = new
                 {
                     Key = key,
                     Value = value

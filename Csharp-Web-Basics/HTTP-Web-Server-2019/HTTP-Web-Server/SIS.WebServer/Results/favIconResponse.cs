@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace SIS.WebServer.Results
 {
-    public class ImageResult : HttpResponse
+    public class favIconResponse : HttpResponse
     {
-        public ImageResult(string content, HttpResponseStatusCode statusCode) : base(content,statusCode)
+        public favIconResponse(string content, HttpResponseStatusCode statusCode) : base(content,statusCode)
         {
             this.Headers.AddHeader(new HttpHeader("Content-Type", "image/x-icon"));
            

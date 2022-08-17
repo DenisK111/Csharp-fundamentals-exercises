@@ -13,7 +13,7 @@ namespace SIS.WebServer.Routing
     {
         void Add(HttpRequestMethod method, string path, Func<IHttpRequest, IHttpResponse> func);
 
-        bool Contains(HttpRequestMethod requestMethod, string path);
+        (bool isContained, string? key) TryGet(HttpRequestMethod requestMethod, string path);
 
         Func<IHttpRequest, IHttpResponse> Get(HttpRequestMethod requestMethod, string path);
     }

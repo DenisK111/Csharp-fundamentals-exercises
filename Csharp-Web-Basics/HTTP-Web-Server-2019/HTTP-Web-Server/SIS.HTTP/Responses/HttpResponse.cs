@@ -28,6 +28,15 @@ namespace SIS.HTTP.Responses
             this.Headers.AddHeader(new HttpHeader("Content-Length", $"{this.Content.Length}"));
         }
 
+        public HttpResponse(byte[] content, HttpResponseStatusCode statusCode,string contentType) : this()
+        {
+            CoreValidator.ThrowIfNull(StatusCode, nameof(statusCode));
+            this.StatusCode = statusCode;
+            this.Content = content;
+            this.Headers.AddHeader(new HttpHeader("Content-Length", $"{this.Content.Length}"));
+            this.Headers.AddHeader(new HttpHeader("Content-Type", contentType));
+        }
+
         public HttpResponseStatusCode StatusCode { get; set; }
         public IHttpHeaderCollection Headers { get; }
         public byte[] Content { get; set; }

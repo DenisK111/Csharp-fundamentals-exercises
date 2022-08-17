@@ -5,23 +5,24 @@ using SIS.HTTP.Enums;
 using System.Diagnostics;
 using HTTP_Web_Server.Controllers;
 using System.Text;
+using MVCFramework;
 
 namespace HTTP_Web_Server
 {
     public class Launcher
     {
         const int port = 8000;
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-      
-                
-    
 
 
 
-    Server server = new Server(port, new StartUp().ConfigureRoutingTable());
-            Process.Start(@"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe", $"http://localhost:{port}");
-            server.Run();
+
+
+
+          //  Process.Start(@"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe", $"http://localhost:{port}");
+            
+           await Host.CreateHostAsync(new StartUp(), port);
 
         }
     }

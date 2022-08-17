@@ -11,6 +11,6 @@ namespace MVCFramework
     {
         void ConfigureServices();
 
-        IServerRoutingTable ConfigureRoutingTable();
+        IServerRoutingTable Configure(IServerRoutingTable serverRoutingTable);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MVCFramework.MVCViewEngine;
+using SIS.HTTP.Requests;
 using SIS.HTTP.Responses;
 using SIS.WebServer.Results;
 using System;
@@ -18,12 +19,20 @@ namespace MVCFramework
         {
             this.viewEngine = new ViewEngine();
         }
+
+        public IHttpRequest? Request { get; set; }
         public IHttpResponse View(object? viewModel=null,[CallerMemberName]string path = null!)
         {
 
             string content = File.ReadAllText("Views/" +this.GetType().Name.Replace("Controller",string.Empty)+ "/" + path + ".cshtml");
             var view = viewEngine.GenerateView(content, viewModel);
             return new HtmlResult(view, SIS.HTTP.Enums.HttpResponseStatusCode.Ok);
+        }
+
+        public IHttpResponse Redirect(string path)
+        {
+
+            return new RedirectResult(path);
         }
     }
 }

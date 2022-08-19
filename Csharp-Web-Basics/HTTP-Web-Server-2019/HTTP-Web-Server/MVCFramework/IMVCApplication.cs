@@ -9,8 +9,8 @@ namespace MVCFramework
 {
     public interface IMVCApplication
     {
-        void ConfigureServices();
+        void ConfigureServices(IServiceCollection serviceCollection);
 
-        IServerRoutingTable Configure(IServerRoutingTable serverRoutingTable);
+        void Configure(IServerRoutingTable serverRoutingTable);
     }
 }

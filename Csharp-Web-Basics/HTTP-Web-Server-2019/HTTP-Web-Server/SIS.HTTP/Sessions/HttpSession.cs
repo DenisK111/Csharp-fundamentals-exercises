@@ -18,7 +18,7 @@ namespace SIS.HTTP.Sessions
 
         public string Id { get; }
 
-        public object GetParameter(string name)
+        public object GetValue(string name)
         {
             if (!session.ContainsKey(name))
                 return null!;
@@ -40,5 +40,7 @@ namespace SIS.HTTP.Sessions
         {
             session.Clear();
         }
+
+        
     }
 }

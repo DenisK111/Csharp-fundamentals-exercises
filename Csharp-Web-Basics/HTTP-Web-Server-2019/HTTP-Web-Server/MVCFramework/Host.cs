@@ -1,5 +1,6 @@
 ﻿using MVCFramework.Attributes;
 using SIS.HTTP.Enums;
+using SIS.HTTP.Requests;
 using SIS.HTTP.Responses;
 using SIS.WebServer;
 using SIS.WebServer.Routing;
@@ -17,10 +18,12 @@ namespace MVCFramework
 
         public static async Task CreateHostAsync(IMVCApplication application, int port)
         {
-            application.ConfigureServices();
             IServerRoutingTable serverRoutingTable = new ServerRoutingTable();
+            IServiceCollection serviceCollection = new ServiceCollection();
+            application.ConfigureServices(serviceCollection);
+
             AutoRegisterStaticFiles(serverRoutingTable);
-            AutoRegisterRoutes(serverRoutingTable,application);
+            AutoRegisterRoutes(serverRoutingTable, application, serviceCollection);
             application.Configure(serverRoutingTable);
 
 
@@ -30,48 +33,88 @@ namespace MVCFramework
 
         }
 
-        private static void AutoRegisterRoutes(IServerRoutingTable serverRoutingTable,IMVCApplication application)
+        private static void AutoRegisterRoutes(IServerRoutingTable serverRoutingTable, IMVCApplication application, IServiceCollection serviceCollection
+            )
         {
-           var types = application.GetType().Assembly.GetTypes()
-                .Where(x => x.IsClass && !x.IsAbstract && x.IsSubclassOf(typeof(Controller)));
+            var types = application.GetType().Assembly.GetTypes()
+                 .Where(x => x.IsClass && !x.IsAbstract && x.IsSubclassOf(typeof(Controller)));
 
             foreach (var type in types)
             {
                 var methods = type.GetMethods()
                     .Where(m => m.DeclaringType == type && m.IsPublic && !m.IsStatic && !m.IsAbstract && !m.IsConstructor && !m.IsSpecialName);
-                
+
                 foreach (var method in methods)
                 {
                     var methodName = method.Name;
                     var path = $"/{type.Name.Replace("Controller", String.Empty)}/{methodName}";
-                    
 
-                    HttpRequestMethod requestType = MapAttributeToHttpMethod(method,ref path);
+
+                    HttpRequestMethod requestType = MapAttributeToHttpMethod(method, ref path);
                     Console.WriteLine(path);
 
-                  // instance.Request = 
-                     
-                    
-                    serverRoutingTable.Add(requestType, path,
-                        request =>
-                        {
-                            var instance = Activator.CreateInstance(type) as Controller;
-                            instance!.Request = request;
-                            var response = (IHttpResponse)method.Invoke(instance, null)!;
-                            return response;
-                        });
+                    // instance.Request = 
 
-                    
+
+                    serverRoutingTable.Add(requestType, path,
+                        request => ExecuteAction(request!, serviceCollection, method, type)
+
+                        );
+
+
                 }
             }
         }
 
-        private static HttpRequestMethod MapAttributeToHttpMethod(MethodInfo method,ref string path)
+        private static IHttpResponse ExecuteAction(IHttpRequest request, IServiceCollection serviceCollection, MethodInfo? method, Type? type)
+        {
+            var instance = serviceCollection.CreateInstance(type!) as Controller;
+            var arguments = new List<object>();
+            var parameters = method?.GetParameters();
+
+            foreach (var parameter in parameters!)
+            {
+                var parameterValue = GetParameterFromRequest(request, parameter.Name!);
+                var paramsParameterValue = Convert.ChangeType(parameterValue, parameter.ParameterType);
+
+                if (paramsParameterValue == null && parameter.ParameterType != typeof(string))
+                {
+                    paramsParameterValue = Activator.CreateInstance(parameter.ParameterType);
+                    var properties = parameter.ParameterType.GetProperties();
+
+                    foreach (var property in properties)
+                    {
+                        var propertyHttpValue = GetParameterFromRequest(request, parameter.Name!);
+                        var propertyParameterValue = Convert.ChangeType(propertyHttpValue, property.PropertyType);
+                        property.SetValue(paramsParameterValue, propertyParameterValue);
+                    }
+                }
+
+                arguments.Add(parameterValue!);
+            }
+
+            instance!.Request = request;
+            var response = (IHttpResponse)method!.Invoke(instance, arguments.ToArray())!;
+            return response!;
+
+        }
+
+        private static object? GetParameterFromRequest(IHttpRequest request, string parameterName)
+        {
+            parameterName = parameterName.ToLower();
+            return request.FormData.Any(x => x.Key.ToLower() == parameterName)
+                 ? request.FormData.First(x => x.Key.ToLower() == parameterName)
+                 : request.QueryData.Any(x => x.Key.ToLower() == parameterName)
+                 ? request.QueryData.First(x => x.Key.ToLower() == parameterName)
+                 : null;
+        }
+
+        private static HttpRequestMethod MapAttributeToHttpMethod(MethodInfo method, ref string path)
         {
             var attribute = method.GetCustomAttributes().Where(a => a.GetType().IsSubclassOf(typeof(BaseAttribute))).FirstOrDefault()!;
 
             var baseAttribute = attribute as BaseAttribute;
-            if (baseAttribute !=null)
+            if (baseAttribute != null)
             {
                 if (!string.IsNullOrEmpty(baseAttribute!.Url))
                 {
@@ -81,7 +124,7 @@ namespace MVCFramework
 
             }
             return HttpRequestMethod.Get;
-            
+
 
 
 

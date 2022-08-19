@@ -17,7 +17,7 @@ namespace MVCFramework.MVCViewEngine
             this.cSharpCode = cSharpCode;
         }
 
-        public string GetHtml(object? viewModel = null)
+        public string GetHtml(object? viewModel = null,string? user = null)
         {
             var sb = new StringBuilder();
 

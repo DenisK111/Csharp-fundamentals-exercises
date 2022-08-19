@@ -18,18 +18,18 @@ namespace HTTP_Web_Server
             
         }
 
-        public void ConfigureServices()
+        public void ConfigureServices(IServiceCollection serviceCollection)
         {
-
+            
         }
-        public  IServerRoutingTable Configure(IServerRoutingTable serverRoutingTable)
+        public  void Configure(IServerRoutingTable serverRoutingTable)
         {
             
 
 
 
 
-            return serverRoutingTable;
+           
         }
 
        

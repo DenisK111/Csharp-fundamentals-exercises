@@ -27,7 +27,10 @@ namespace HTTP_Web_Server.Controllers
         [HttpGet("/Home/Index")]
         public IHttpResponse IndexRedirect()
         {
-            return Redirect("/");
+
+            return this.Error("Wrong Page");
+
+            //return Redirect("/");
         }
     }
 }

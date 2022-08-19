@@ -9,6 +9,6 @@ namespace MVCFramework.MVCViewEngine
     public interface IView
     {
 
-        string GetHtml(object? viewModel = default);
+        string GetHtml(object? viewModel = default,string? user = null);
     }
 }

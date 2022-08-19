@@ -10,7 +10,7 @@ namespace SIS.HTTP.Sessions
     {
         string Id { get; }
 
-        object GetParameter(string name);
+        object GetValue(string name);
 
         bool ContainsParameter(string name);
 

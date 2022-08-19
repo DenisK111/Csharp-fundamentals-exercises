@@ -12,11 +12,11 @@ namespace MVCFramework.MVCViewEngine
 {
     public class ViewEngine : IViewEngine
     {
-        public string GenerateView(string templateCode, object? viewModel = null)
+        public string GenerateView(string templateCode, object? viewModel = null, string? user = null)
         {
             var csharpCode = GenerateCsharpCode(templateCode,viewModel!);
             var assembly = GenerateExecutableObject(csharpCode, viewModel!);
-            var html = assembly.GetHtml(viewModel);
+            var html = assembly.GetHtml(viewModel,user);
 
             return html;
 
@@ -95,8 +95,9 @@ namespace ViewNamespace
 {
 public class ViewClass : IView
     {
-        public string GetHtml(object? viewModel)
+        public string GetHtml(object? viewModel,string? user)
         {
+            var User = user;
             var Model = viewModel as " + typeOfModel + @";
             var html = new StringBuilder();
 

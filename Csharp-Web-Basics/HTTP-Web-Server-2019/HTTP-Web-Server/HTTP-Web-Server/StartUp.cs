@@ -1,4 +1,6 @@
 ﻿using HTTP_Web_Server.Controllers;
+using HTTP_Web_Server.Data;
+using Microsoft.EntityFrameworkCore;
 using MVCFramework;
 using SIS.HTTP.Enums;
 using SIS.HTTP.Responses;
@@ -24,12 +26,8 @@ namespace HTTP_Web_Server
         }
         public  void Configure(IServerRoutingTable serverRoutingTable)
         {
-            
-
-
-
-
-           
+            new ApplicationDbContext().Database.Migrate();
+                                  
         }
 
        

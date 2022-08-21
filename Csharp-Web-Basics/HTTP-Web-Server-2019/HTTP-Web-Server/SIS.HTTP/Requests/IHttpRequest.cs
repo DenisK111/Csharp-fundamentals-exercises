@@ -14,8 +14,8 @@ namespace SIS.HTTP.Requests
     {
         string Path { get; }
         string Url { get; }
-        Dictionary<string,object> FormData { get; }
-        Dictionary<string, object> QueryData { get; }
+        Dictionary<string,string> FormData { get; }
+        Dictionary<string, string> QueryData { get; }
         IHttpHeaderCollection Headers { get; }
         HttpRequestMethod RequestMethod { get; }
        IHttpCookieCollection CookieCollection { get; }

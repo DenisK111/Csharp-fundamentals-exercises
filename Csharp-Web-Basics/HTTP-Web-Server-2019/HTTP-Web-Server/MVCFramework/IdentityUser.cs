@@ -11,7 +11,6 @@ namespace MVCFramework
     {
 
         public T Id { get; set; } = default(T)!;
-        [MaxLength(20)]
         public string UserName { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;

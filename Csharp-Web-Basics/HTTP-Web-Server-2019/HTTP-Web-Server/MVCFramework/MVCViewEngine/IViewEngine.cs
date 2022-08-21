@@ -8,6 +8,6 @@ namespace MVCFramework.MVCViewEngine
 {
     public interface IViewEngine
     {
-        string GenerateView(string templateCode, object? ViewModel = default,string? user = null);
+        string GenerateView(string templateCode, object? ViewModel = default,(string? user,int role)? userData = null);
     }
 }

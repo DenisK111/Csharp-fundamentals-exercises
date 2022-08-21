@@ -19,8 +19,8 @@ namespace SIS.HTTP.Requests
         {
             CoreValidator.ThrowIfNullOrEmpty(requestString, nameof(requestString));
 
-            this.FormData = new Dictionary<string, object>();
-            this.QueryData = new Dictionary<string, object>();
+            this.FormData = new Dictionary<string, string>();
+            this.QueryData = new Dictionary<string, string>();
             this.Headers = new HttpHeaderCollection();
             this.CookieCollection = new HttpCookieCollection();
             this.ParseRequest(requestString);
@@ -32,9 +32,9 @@ namespace SIS.HTTP.Requests
 
         public string Url { get; private set; } = null!;
 
-        public Dictionary<string, object> FormData { get; } = null!;
+        public Dictionary<string, string> FormData { get; } = null!;
 
-        public Dictionary<string, object> QueryData { get; } = null!;
+        public Dictionary<string, string> QueryData { get; } = null!;
 
         public IHttpHeaderCollection Headers { get; } = null!;
 
@@ -59,7 +59,7 @@ namespace SIS.HTTP.Requests
 
         }
 
-        private void MapQueryString(Dictionary<string, object> queryData, string queryString)
+        private void MapQueryString(Dictionary<string, string> queryData, string queryString)
         {
             var parameters = queryString.Split("&");
 
@@ -75,11 +75,7 @@ namespace SIS.HTTP.Requests
                 var key = split[0];
                 var value = split[1];
 
-                queryData[key] = new
-                {
-                    Key = key,
-                    Value = value
-                };
+                queryData[key] = value;
             }
 
         }

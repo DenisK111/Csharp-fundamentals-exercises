@@ -14,7 +14,7 @@ namespace MVCFramework
     public abstract class Controller
     {
         private IViewEngine viewEngine;
-        private const string UserIdSessionName = "UserId";
+        public const string UserIdSessionName = "UserId";
         public Controller()
         {
             this.viewEngine = new ViewEngine();
@@ -25,8 +25,8 @@ namespace MVCFramework
         {
 
             string content = File.ReadAllText("Views/" +this.GetType().Name.Replace("Controller",string.Empty)+ "/" + path + ".cshtml");
-            var view = viewEngine.GenerateView(content, viewModel);
-            return new HtmlResult(view, SIS.HTTP.Enums.HttpResponseStatusCode.Ok);
+            var view = viewEngine.GenerateView(content, viewModel, this.Request!.Session.GetValue(UserIdSessionName));
+            return new HtmlResult(PutViewInLayout(view,viewModel, this.Request.Session.GetValue(UserIdSessionName)), SIS.HTTP.Enums.HttpResponseStatusCode.Ok);
         }
 
         protected IHttpResponse Redirect(string path)
@@ -39,37 +39,37 @@ namespace MVCFramework
         {
 
             string content = File.ReadAllText("Views/Error.cshtml");
-            var view = viewEngine.GenerateView(content, errorText,(string?)this.Request!.Session.GetValue(UserIdSessionName));
+            var view = viewEngine.GenerateView(content, errorText,this.Request!.Session.GetValue(UserIdSessionName));
             return new HtmlResult(view, SIS.HTTP.Enums.HttpResponseStatusCode.InternalServerError);
         }
 
-        protected void SignIn(string userId)
+        protected void SignIn(string userId,IdentityRole role)
         {
-         
 
-            this.Request!.Session.AddParameter(UserIdSessionName, userId);
+
+            this.Request!.Session.AddParameter(UserIdSessionName,userId, (int)role);
         }
 
         protected void SignOut()
         {
-            this.Request!.Session.ClearParameters();
+            this.Request!.Session.SetParameterToNull(UserIdSessionName);
         }
 
         protected bool IsUserSignedIn()
         {
-            return this.Request!.Session.ContainsParameter(UserIdSessionName);
+            return this.Request!.Session.ContainsParameter(UserIdSessionName) && this.Request!.Session.GetValue(UserIdSessionName) != null;
         }
 
-        protected object GetUserId()
+        protected string? GetUserId()
         {
-            return this.Request!.Session.GetValue(UserIdSessionName);
+            return this.Request!.Session.GetValue(UserIdSessionName).HasValue ? this.Request!.Session.GetValue(UserIdSessionName)!.Value.userId! : null!;
 
         }
 
-        private string PutViewInLayout(string viewContent,object? viewModel = null,string? user = null)
+        private string PutViewInLayout(string viewContent,object? viewModel = null, (string? user, int role)? user = null)
         {
 
-            var layout = File.ReadAllText("/Views/Layout.cshtml");
+            var layout = File.ReadAllText("Views/Layout.cshtml");
             layout = layout.Replace("{{RenderBody}}", "View_goes_here");
             layout = this.viewEngine.GenerateView(layout, viewModel, user);
             var responseHtml = layout.Replace("View_goes_here", viewContent);

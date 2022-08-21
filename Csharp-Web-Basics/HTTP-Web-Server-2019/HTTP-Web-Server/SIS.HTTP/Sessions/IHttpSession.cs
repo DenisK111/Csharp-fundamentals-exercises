@@ -10,13 +10,15 @@ namespace SIS.HTTP.Sessions
     {
         string Id { get; }
 
-        object GetValue(string name);
+        (string? userId, int userRole)? GetValue(string name);
 
         bool ContainsParameter(string name);
 
-        void AddParameter(string name, object parameter);
+        void AddParameter(string name, object parameter,int role);
 
         void ClearParameters();
+
+        void SetParameterToNull(string UserIdSessionName);
 
     }
 }

@@ -75,6 +75,7 @@ namespace MVCFramework
             foreach (var parameter in parameters!)
             {
                 var parameterValue = GetParameterFromRequest(request, parameter.Name!);
+                
                 var paramsParameterValue = Convert.ChangeType(parameterValue, parameter.ParameterType);
 
                 if (paramsParameterValue == null && parameter.ParameterType != typeof(string))
@@ -84,13 +85,13 @@ namespace MVCFramework
 
                     foreach (var property in properties)
                     {
-                        var propertyHttpValue = GetParameterFromRequest(request, parameter.Name!);
+                        var propertyHttpValue = GetParameterFromRequest(request, property.Name!);
                         var propertyParameterValue = Convert.ChangeType(propertyHttpValue, property.PropertyType);
                         property.SetValue(paramsParameterValue, propertyParameterValue);
                     }
                 }
 
-                arguments.Add(parameterValue!);
+                arguments.Add(paramsParameterValue!);
             }
 
             instance!.Request = request;
@@ -103,9 +104,9 @@ namespace MVCFramework
         {
             parameterName = parameterName.ToLower();
             return request.FormData.Any(x => x.Key.ToLower() == parameterName)
-                 ? request.FormData.First(x => x.Key.ToLower() == parameterName)
+                 ? request.FormData.First(x => x.Key.ToLower() == parameterName).Value
                  : request.QueryData.Any(x => x.Key.ToLower() == parameterName)
-                 ? request.QueryData.First(x => x.Key.ToLower() == parameterName)
+                 ? request.QueryData.First(x => x.Key.ToLower() == parameterName).Value
                  : null;
         }
 
@@ -163,6 +164,7 @@ namespace MVCFramework
                 ".js" => "application/javascript",
                 ".jpeg" => "image/jpeg",
                 ".jpg" => "image/jpeg",
+                ".png" => "image/png",
                 ".html" => "text/html",
                 ".txt" => "text/plain",
                 ".ico" => "image/x-icon",

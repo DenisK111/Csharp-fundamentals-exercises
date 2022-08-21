@@ -12,11 +12,22 @@ namespace MVCFramework.MVCViewEngine
 {
     public class ViewEngine : IViewEngine
     {
-        public string GenerateView(string templateCode, object? viewModel = null, string? user = null)
+        private const string Replace = "{{REPLACE}}";
+        public string GenerateView(string templateCode, object? viewModel = null, (string? user, int role)? userData = null)
         {
             var csharpCode = GenerateCsharpCode(templateCode,viewModel!);
             var assembly = GenerateExecutableObject(csharpCode, viewModel!);
-            var html = assembly.GetHtml(viewModel,user);
+
+            var role = (int)IdentityRole.NotLoggedIn;
+            string? user = null!;
+
+            if (userData.HasValue)
+            {
+                role = userData.Value.role;
+                user = userData.Value.user;
+            }
+
+            var html = assembly.GetHtml((IdentityRole)role, viewModel, user);
 
             return html;
 
@@ -29,11 +40,28 @@ namespace MVCFramework.MVCViewEngine
                  .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
                  .AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location))
                  .AddReferences(MetadataReference.CreateFromFile(typeof(IView).Assembly.Location));
+            var namespacesToAdd = new List<string>();
 
             if (viewModel != null)
             {
                 cSharpExecutableObject = cSharpExecutableObject.AddReferences(MetadataReference.CreateFromFile(viewModel.GetType().Assembly.Location));
+
+                if (viewModel.GetType().IsGenericType)
+                {
+                    var types = viewModel.GetType().GetGenericArguments();
+
+                    
+
+                    foreach (var type in types)
+                    {
+                        namespacesToAdd.Add(type.Namespace!);
+                        cSharpExecutableObject = cSharpExecutableObject.AddReferences(MetadataReference.CreateFromFile(type.Assembly.Location));
+                    }
+                }
+
             }
+
+            csharpCode = csharpCode.Replace(Replace, string.Join("\r\n", namespacesToAdd.Select(x => $"using {x};")));
 
             var libraries = Assembly.Load(new AssemblyName("netstandard")).GetReferencedAssemblies();
 
@@ -90,13 +118,16 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using MVCFramework.MVCViewEngine;
+using MVCFramework;
+{{REPLACE}}
 
 namespace ViewNamespace
 {
 public class ViewClass : IView
     {
-        public string GetHtml(object? viewModel,string? user)
+        public string GetHtml(IdentityRole role,object? viewModel,string? user)
         {
+            var Role = role;
             var User = user;
             var Model = viewModel as " + typeOfModel + @";
             var html = new StringBuilder();

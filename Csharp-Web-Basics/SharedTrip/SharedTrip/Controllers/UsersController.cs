@@ -1,29 +1,22 @@
 ﻿using BasicWebServer.Server.Attributes;
 using BasicWebServer.Server.Controllers;
 using BasicWebServer.Server.HTTP;
-using DataAnnotationsExtensions;
-using FootballManager.Data;
-using FootballManager.Data.Models;
-using FootballManager.Services;
-using FootballManager.ViewModels;
+using SharedTrip.Services;
+using SharedTrip.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FootballManager.Controllers
+namespace SharedTrip.Controllers
 {
     public class UsersController : Controller
     {
-       
-        private readonly IUsersService service;
-
-        public UsersController(Request request,IUsersService service) : base(request)
+private readonly IUserService service;
+        public UsersController(Request request, IUserService service) : base(request)
         {
-       
             this.service = service;
         }
 
@@ -31,14 +24,13 @@ namespace FootballManager.Controllers
         {
             if (this.User.IsAuthenticated)
                 return this.Redirect("/");
-
-            return this.View(new {IsAuthenticated=false});
+            return this.View(new { IsAuthenticated = false });
         }
+
         public Response Register()
         {
             if (this.User.IsAuthenticated)
                 return this.Redirect("/");
-
             return this.View(new { IsAuthenticated = false });
         }
 
@@ -49,16 +41,13 @@ namespace FootballManager.Controllers
                 return this.Redirect("/");
 
 
-            if (model.Username.Length<5 || model.Username.Length>20)
+            if (model.UserName.Length < 5 || model.UserName.Length > 20)
             {
                 return this.Register();
             }
-
-            if (model.Email.Length < 10 || model.Email.Length > 60)
-            {
-                return this.Register();
-            }
-            if (model.Password.Length < 5 || model.Password.Length > 20)
+                      
+            
+            if (model.Password.Length < 6 || model.Password.Length > 20)
             {
                 return this.Register();
             }
@@ -66,9 +55,13 @@ namespace FootballManager.Controllers
             // Added Email Validation
             if (!(new EmailAddressAttribute().IsValid(model.Email)))
             {
+               return this.Register();
+            }
+            //Added check if user is already registered
+            if (service.CheckIfUserExists(model.UserName))
+            {
                 return this.Register();
             }
-
             service.AddRegistration(model);
 
             return this.Redirect("/Users/Login");
@@ -76,20 +69,20 @@ namespace FootballManager.Controllers
         }
 
         [HttpPost]
-        public Response Login(string Username,string Password)
+        public Response Login(LoginViewModel model)
         {
 
             if (this.User.IsAuthenticated)
                 return this.Redirect("/");
 
-            if (service.AuthenticateLogin(Username,Password))
+            if (service.AuthenticateLogin(model.Username, model.Password))
             {
-                this.SignIn(Username);
+                this.SignIn(model.Username);
             }
 
             else
             {
-                this.Login();
+               return this.Login();
             }
 
             return this.Redirect("/");
@@ -105,10 +98,5 @@ namespace FootballManager.Controllers
 
             return Redirect("/");
         }
-
-
-      
-
-
     }
 }

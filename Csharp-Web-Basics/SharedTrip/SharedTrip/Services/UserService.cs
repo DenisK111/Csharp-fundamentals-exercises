@@ -1,6 +1,6 @@
-﻿using FootballManager.Data;
-using FootballManager.Data.Models;
-using FootballManager.ViewModels;
+﻿using SharedTrip.Data;
+using SharedTrip.Data.Models;
+using SharedTrip.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +8,13 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FootballManager.Services
+namespace SharedTrip.Services
 {
-    public class UsersService : IUsersService
+    public class UserService : IUserService
     {
-        private readonly FootballManagerDbContext context;
+        private readonly ApplicationDbContext context;
 
-        public UsersService(FootballManagerDbContext context)
+        public UserService(ApplicationDbContext context)
         {
             this.context = context;
         }
@@ -22,17 +22,15 @@ namespace FootballManager.Services
         {
             this.context.Add(new User
             {
-                Username = model.Username,
+                Username = model.UserName,
                 Password = GetSHA512Password(model.Password),
                 Email = model.Email
             });
             context.SaveChanges();
         }
 
-        public bool AuthenticateLogin(string username, string password) =>
-            context.Users
+        public bool AuthenticateLogin(string username, string password) => context.Users
             .Any(x => x.Username == username && GetSHA512Password(password) == x.Password);
-        
 
         private static string GetSHA512Password(string password)
         {
@@ -44,6 +42,11 @@ namespace FootballManager.Services
             hash = Encoding.UTF8.GetString(result);
             return hash;
 
+        }
+
+        public bool CheckIfUserExists(string username)
+        {
+            return this.context.Users.Any(x => x.Username == username);
         }
     }
 }

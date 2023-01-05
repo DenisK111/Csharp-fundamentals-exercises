@@ -1,4 +1,4 @@
-﻿namespace _02.MaxHeap
+﻿namespace Maxheep
 {
     using System;
     using System.Collections.Generic;

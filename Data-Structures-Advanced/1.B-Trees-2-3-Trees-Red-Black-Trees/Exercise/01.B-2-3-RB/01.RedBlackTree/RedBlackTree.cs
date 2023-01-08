@@ -38,6 +38,16 @@
         {
             this.EachInOrder(this.root, action);
         }
+		
+		public bool Contains(T element) => this.Contains(this.root, element);
+
+        private bool Contains(Node node, T element)
+        {
+            if (node == null) return false;
+            else if (node.Value.CompareTo(element) == 0) return true;
+            else if (node.Value.CompareTo(element) > 0) return this.Contains(node.Left, element);
+            else return this.Contains(node.Right, element);
+        }
 
         public RedBlackTree<T> Search(T element)
         {

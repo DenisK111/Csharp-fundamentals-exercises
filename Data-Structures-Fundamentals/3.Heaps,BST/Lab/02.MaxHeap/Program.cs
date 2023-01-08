@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _2.MaxHeap
+namespace Maxheep
 {
     class Program
     {

@@ -149,10 +149,7 @@
             bool exists = false;
             if (node.Value.Equals(nodeKey)) {
 
-                node._children.Clear();
-                IsRootDeleted = true;
-                
-                return;
+                throw new ArgumentException();
             }
             Queue<Tree<T>> queue = new Queue<Tree<T>>();
             queue.Enqueue(node);
@@ -191,13 +188,18 @@
         public void Swap(T firstKey, T secondKey)
         {
             var node = this;
+
+              if (node.Value.Equals(firstKey) || node.Value.Equals(secondKey))
+            {
+                throw new ArgumentException();
+            }
+
             Queue<Tree<T>> queue = new Queue<Tree<T>>();
             queue.Enqueue(node);
 
             Tree<T> firstNode = null;
             Tree<T> secondNode = null;
-
-
+      
 
             while (queue.Count > 0)
             {

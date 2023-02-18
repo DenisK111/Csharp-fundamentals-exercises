@@ -1,5 +1,17 @@
+@import 'https://use.fontawesome.com/releases/v5.6.3/css/all.css';
+
+
+.container {
+    margin: 50px;
+}
+
 body {
     background-color: rgb(251,251,251);
+    
+}
+
+h2 {
+    font-weight: 400;
 }
 
 .button {
@@ -7,6 +19,21 @@ body {
     cursor: pointer;
     outline: none;
     border-radius: 20px;
-    padding: 5px;
-    font-weight: 500;
+    padding: 9px 15px;
+   
+
+    margin-right: 10px;
+    font-weight: 600;
+
+}
+
+.fill {
+    border-width: 0;
+    background-color:rgb(51, 51, 51);
+    color:rgb(251, 251, 251);
+    
+}
+
+.hover:hover{
+    background-color: rgb(0,102,0);
 }

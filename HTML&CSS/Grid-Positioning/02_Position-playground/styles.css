@@ -1,0 +1,66 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css);
+
+.grid-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    "pic1"
+    "pic2";
+}
+
+.viewport.bg1{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(35,35,130,1) 0%, rgba(0,255,169,1) 100%);
+    grid-area: pic1;   
+}
+
+.viewport.bg2{
+    background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,255,169,1) 0%, rgba(212,61,87,1) 0%, rgba(189,18,47,1) 95%);
+    grid-area: pic2;  
+}
+
+
+
+.viewport .first.card{
+    position:absolute;
+    width: 30vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+   
+}
+
+.viewport .second.card {
+    position:absolute;
+    width: 30vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.viewport{
+    position: relative;
+}
+
+section.card img{
+    display: block;       
+    border-radius: 1px;
+        
+    
+   
+}
+
+
+
+i {
+    position: absolute;
+    display: block;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+    color: white;
+}
+

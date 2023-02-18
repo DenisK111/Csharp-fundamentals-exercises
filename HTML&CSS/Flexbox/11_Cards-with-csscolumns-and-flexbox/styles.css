@@ -1,0 +1,36 @@
+body {
+    margin:0;
+    background-color: rgb(238, 238, 238);
+    
+}
+
+.cards-layout {
+    display: flex;
+    width: 80%;
+    max-width: 100vw;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 12px
+}
+
+.card {
+    min-width: 25%;
+    max-width: 30%;
+    
+}
+
+.masonry { 
+    
+    flex-flow: row wrap;
+    align-content: space-between; 
+    
+  }
+  
+  .masonry .card:before, 
+  .masonry .card:after { 
+    content: ""; 
+    flex-basis: 100%; 
+    width: 0; 
+    order: 2; 
+  }

@@ -1,0 +1,76 @@
+.page {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+body {
+    background-color: rgb(238, 238, 238);
+}
+
+img {
+    background-color: rgb(255, 255, 255);
+}
+
+blockquote {
+    font-family: Georgia, serif;
+}
+
+aside a {
+    color: rgb(0, 153, 0);
+}
+
+h1, h2 {
+    font-family: Georgia, serif;
+}
+
+.header {
+    width: 100%;
+    border-bottom: 2px solid black;
+}
+
+main {
+    width: 77%;
+    margin-right: 3%;
+}
+
+aside {
+    width: 20%;
+}
+
+main .img1{
+   border: 2px solid black;
+   padding: 4px;
+    float: right;
+}
+
+.flexDiv {
+    display:flex;
+    align-items: baseline;
+    justify-content: baseline;
+    
+}
+
+.flexDiv > p{
+    width: 50%;
+    vertical-align: top;
+}
+
+.flexDiv blockquote {
+    width: 50%;
+    border-left: 2px solid lightgrey;
+    padding: 0;
+    padding-left: 12px;
+    font-style: italic;
+    vertical-align: top;    
+}
+
+blockquote .author{
+    text-align: right;
+}
+
+.img2 {
+    float: left;
+    border: 2px solid black;
+    padding: 4px;
+    margin-right: 12px;
+}

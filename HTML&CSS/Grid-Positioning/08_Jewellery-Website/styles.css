@@ -1,0 +1,38 @@
+section {
+    position: absolute;  
+
+}
+
+body {
+    margin: 0;
+}
+
+main > img {
+    display: block;
+   
+    z-index: -1;
+}
+
+section {
+    z-index: 2;    
+    position: absolute;
+    top:250px;
+    left: 180px;    
+}
+
+section div {
+    position: relative;
+    bottom:50px;
+    left: 8px;
+}
+
+h3{
+    font-size: 16px;
+    margin:0;
+}
+
+span{
+    padding-left:3px;
+    color: grey;
+    font-size: 14px;
+}

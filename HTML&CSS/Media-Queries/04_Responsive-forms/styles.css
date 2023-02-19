@@ -1,0 +1,72 @@
+/* 
+
+bg: #f8f8f8
+btn-bg: #2d2d2d
+
+
+*/
+
+
+
+i {
+    position: absolute;
+    padding: 6px;
+}
+
+input {  
+           
+    text-align: center;
+    width: 100%;
+}
+
+section {
+    position: relative;
+    background-color: #f8f8f8 ;
+    max-width: 300px;
+    
+    padding: 30px;
+    font-family: sans-serif;
+    margin: 40px auto
+    
+
+}
+
+.border {
+    border-radius: 2px;    
+    box-shadow: 0 0 1px 1px grey;
+}
+
+.inputicons > *{
+    margin-bottom: 8px;
+}
+
+.inputicons{
+    margin-bottom: 10px;
+}
+
+
+label.label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+button {
+    padding: 4px 12px;
+    color: white;
+    background-color: #2d2d2d;
+    border-radius: 4px;
+    border: 0;      
+}
+
+.login {
+    margin-bottom: 0px;
+    position: absolute;
+    border: 1px solid black;
+    width: 33%;
+    top: -8%;
+    left: 0;
+    padding: 4px 8px;
+    background-color: #f8f8f8;
+}

@@ -11,6 +11,19 @@ namespace Algorithms
             //DrawRecursion(10);
             //Gen01(0, new int[4]);
             //NelementsFromK([1, 2, 3, 4], new int[2], 0,0);
+            //Console.WriteLine(Fibbonaci(1));
+
+            // All PAths in a labyrinth
+
+            char[,] dArray = new char[,]
+            {
+                { '-', '-', '-', '*', '-', '-', '-' },
+                { '*', '*', '-', '*', '-', '*', '-' },
+                { '-', '-', '-', '-', '-', '-', '-' },
+                { '-', '*', '*', '*', '*', '*', '-' },
+                { '-', '-', '-', '-', '-', '-', 'e' },                
+            };
+            AllPaths.AllPathsInALabyrinth(dArray);
         }
 
         static int ArraySum(int[] array, int index)
@@ -39,7 +52,7 @@ namespace Algorithms
         }
           
         
-        static long Factorial (int num) => num <= 1 ? 1 : num * Factorial(num -1);
+        static long Factorial (uint num) => num <= 1 ? 1 : num * Factorial(num -1);
 
         static void Gen01(int index, int[] vector)
         {
@@ -67,6 +80,24 @@ namespace Algorithms
                 }
             }
 
+        }
+
+        static long Fibbonaci(int n)
+        {
+            Dictionary<int,long> cache = new Dictionary<int,long>();
+            cache[1] = 1;
+            cache[0] = 1;
+            return Fib(n);
+
+            long Fib(int n)
+            {
+                if (cache.ContainsKey(n)) return cache[n];
+
+                var fib1 = Fib(n - 1); cache[n - 1] = fib1;
+                var fib2 = Fib(n - 2); cache[n - 2] = fib2;
+
+                return fib1 + fib2;
+            }
         }
     }   
 }

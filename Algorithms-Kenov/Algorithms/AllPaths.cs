@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Algorithms.Utils;
 
 namespace Algorithms
 {
@@ -26,17 +27,6 @@ namespace Algorithms
             Paths(labyrinth, row, col - 1, 'L');
             Paths(labyrinth, row, col + 1, 'R');
             labyrinth[row, col] = '-';            
-        }
-
-        private static void Print(char[,] labyrinth)
-        {
-            for (int row = 0; row<labyrinth.GetLength(0); row++)
-            {
-                for(int col = 0;col< labyrinth.GetLength(1); col++)
-                    Console.Write(labyrinth[row, col]);
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-        }
+        }        
     }
 }

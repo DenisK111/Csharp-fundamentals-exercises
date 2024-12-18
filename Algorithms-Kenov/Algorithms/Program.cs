@@ -15,15 +15,17 @@ namespace Algorithms
 
             // All PAths in a labyrinth
 
-            char[,] dArray = new char[,]
-            {
-                { '-', '-', '-', '*', '-', '-', '-' },
-                { '*', '*', '-', '*', '-', '*', '-' },
-                { '-', '-', '-', '-', '-', '-', '-' },
-                { '-', '*', '*', '*', '*', '*', '-' },
-                { '-', '-', '-', '-', '-', '-', 'e' },                
-            };
-            AllPaths.AllPathsInALabyrinth(dArray);
+            //char[,] dArray = new char[,]
+            //{
+            //    { '-', '-', '-', '*', '-', '-', '-' },
+            //    { '*', '*', '-', '*', '-', '*', '-' },
+            //    { '-', '-', '-', '-', '-', '-', '-' },
+            //    { '-', '*', '*', '*', '*', '*', '-' },
+            //    { '-', '-', '-', '-', '-', '-', 'e' },                
+            //};
+            //AllPaths.AllPathsInALabyrinth(dArray);
+
+            NQueensProblem.Solve(8);
         }
 
         static int ArraySum(int[] array, int index)

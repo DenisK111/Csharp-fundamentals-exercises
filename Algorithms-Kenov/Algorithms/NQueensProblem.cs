@@ -58,9 +58,7 @@ namespace Algorithms
                     }
                 }
 
-            }
-
-            
+            }           
 
             bool CanPlaceQueen(int row, int col)
             {
@@ -74,7 +72,6 @@ namespace Algorithms
                     diagonalCheck(upRow, rightCol) && 
                     diagonalCheck(downRow, leftCol) && 
                     diagonalCheck(downRow, rightCol);
-
             }
 
             void MarkPlaced(int row, int col)

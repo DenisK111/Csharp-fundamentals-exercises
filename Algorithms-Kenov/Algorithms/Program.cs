@@ -25,7 +25,9 @@ namespace Algorithms
             //};
             //AllPaths.AllPathsInALabyrinth(dArray);
 
-            NQueensProblem.Solve(8);
+            //NQueensProblem.Solve(8);
+
+            Words.Run();
         }
 
         static int ArraySum(int[] array, int index)

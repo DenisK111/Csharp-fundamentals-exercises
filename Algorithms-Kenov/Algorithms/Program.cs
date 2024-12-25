@@ -27,7 +27,13 @@ namespace Algorithms
 
             //NQueensProblem.Solve(8);
 
-            Words.Run();
+            //Words.Run();
+
+            //Graphs.DFS(Graphs.RepresentUndirectedGraph());
+
+            //Graphs.BFS(Graphs.RepresentGraph());
+
+            Graphs.TopologicalSort(Graphs.DirectedGraph);
         }
 
         static int ArraySum(int[] array, int index)

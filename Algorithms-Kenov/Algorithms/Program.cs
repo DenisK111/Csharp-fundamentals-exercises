@@ -36,7 +36,8 @@ namespace Algorithms
             //Graphs.TopologicalSort(Graphs.DirectedGraph);
             //Graphs.MSTKruskal(Graphs.WeightedEdgeGraph);
             //Console.WriteLine("--------------------");
-            Graphs.MSTPrim(Graphs.WeightedEdgeGraph);
+            //Graphs.MSTPrim(Graphs.WeightedEdgeGraph);
+            Graphs.Dijkstra(Graphs.WeightedEdgeGraph);
         }
 
         static int ArraySum(int[] array, int index)

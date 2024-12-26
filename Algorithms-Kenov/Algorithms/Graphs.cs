@@ -143,19 +143,7 @@ namespace Algorithms
 
         public static void MSTPrim(List<Edge> graph)
         {
-            Dictionary<int,List<Edge>> dict = graph.Aggregate(new Dictionary<int,List<Edge>>(),(acc,edge) =>
-            {
-                if (!acc.ContainsKey(edge.From))
-                {
-                    acc.Add(edge.From, new List<Edge>());
-                }
-                if (!acc.ContainsKey(edge.To))
-                {
-                    acc.Add(edge.To, new List<Edge>());
-                }
-                acc[edge.From].Add(edge);
-                return acc;
-            });
+            Dictionary<int,List<Edge>> dict = GraphToDctionary(graph);
             var visited = new bool[dict.Count];
             var priorityQueue = new PriorityQueue<Edge,int>();
             dict.Keys.Order().ForEach(Prim);            
@@ -174,8 +162,41 @@ namespace Algorithms
                     visited[smallestEdge.To] = true;
                     dict[smallestEdge.To].ForEach(el => priorityQueue.Enqueue(el,el.Weight));
                 }
+            }            
+        }
+
+        public static void Dijkstra(List<Edge> graph)
+        {
+            var dictGraph = GraphToDctionary(graph);
+            var distances = Enumerable.Range(0,dictGraph.Count).Select((el) => el == 0 ? el : int.MaxValue).ToArray();
+            var priorityQueue = new SortedSet<int>(Comparer<int>.Create((f, s) => distances[f] - distances[s]))
+            {
+                dictGraph.Keys.First()
+            };
+            while(priorityQueue.Count > 0)
+            {
+                var min = priorityQueue.Min;
+                priorityQueue.Remove(min);
+
+                dictGraph[min].ForEach(edge =>
+                {
+                    var otherNode = edge.From == min ? edge.To : edge.From;
+                    if (distances[otherNode] == int.MaxValue)
+                    {
+                        priorityQueue.Add(otherNode);
+                    }
+
+                    var newDistance = distances[min] + edge.Weight;
+                    if (newDistance < distances[otherNode])
+                    {
+                        distances[otherNode] = newDistance;    
+                        priorityQueue = new SortedSet<int>(priorityQueue, Comparer<int>.Create((f, s) => distances[f] - distances[s]));
+                    }
+                });
+
             }
-            
+
+            distances.ForEach(Console.WriteLine);
         }
 
         public static void TopologicalSort(List<int>[] graph)
@@ -231,5 +252,21 @@ namespace Algorithms
 
             
         }
+
+        private static Dictionary<int,List<Edge>> GraphToDctionary(List<Edge> graph) =>        
+            graph.Aggregate(new Dictionary<int, List<Edge>>(), (acc, edge) =>
+            {
+                if (!acc.ContainsKey(edge.From))
+                {
+                    acc.Add(edge.From, new List<Edge>());
+                }
+                if (!acc.ContainsKey(edge.To))
+                {
+                    acc.Add(edge.To, new List<Edge>());
+                }
+                acc[edge.From].Add(edge);
+                return acc;
+            });       
+       
     }
 }

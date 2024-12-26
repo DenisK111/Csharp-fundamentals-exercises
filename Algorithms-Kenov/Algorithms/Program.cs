@@ -33,7 +33,10 @@ namespace Algorithms
 
             //Graphs.BFS(Graphs.RepresentGraph());
 
-            Graphs.TopologicalSort(Graphs.DirectedGraph);
+            //Graphs.TopologicalSort(Graphs.DirectedGraph);
+            //Graphs.MSTKruskal(Graphs.WeightedEdgeGraph);
+            //Console.WriteLine("--------------------");
+            Graphs.MSTPrim(Graphs.WeightedEdgeGraph);
         }
 
         static int ArraySum(int[] array, int index)

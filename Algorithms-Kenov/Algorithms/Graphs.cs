@@ -6,8 +6,30 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
+    public record struct Edge
+    {
+        public int From;
+        public int To;
+        public int Weight;
+    }
+
     public static class Graphs
     {
+        public static readonly List<Edge> WeightedEdgeGraph = new List<Edge>()
+        {
+            new Edge() { From = 0, To = 1, Weight = 4 },
+            new Edge() { From = 0, To = 2, Weight = 5 },            
+            new Edge() { From = 0, To = 3, Weight = 9 },
+            new Edge() { From = 1, To = 3, Weight = 2 },
+            new Edge() { From = 2, To = 3, Weight = 20 },
+            new Edge() { From = 2, To = 4, Weight = 7 },
+            new Edge() { From = 3, To = 4, Weight = 8 },
+            new Edge() { From = 4, To = 5, Weight = 12 },
+            new Edge() { From = 6, To = 7, Weight = 8 },
+            new Edge() { From = 6, To = 8, Weight = 10 },
+            new Edge() { From = 7, To = 8, Weight = 7 },
+        };
+
         public static readonly List<int>[] DirectedGraph = new List<int>[]
         {
                 new List<int> {1, 2},
@@ -88,6 +110,72 @@ namespace Algorithms
                 Console.Write(index + " ");
             }
 
+        }
+
+        public static void MSTKruskal(List<Edge> graph)
+        {
+            int[] parents = graph.Aggregate(Enumerable.Empty<int>(), (acc, el) => acc.Append(el.From).Append(el.To))
+                .Distinct()
+                .Order()
+                .ToArray();                        
+            
+
+            graph.OrderBy(e => e.Weight).ForEach(edge =>
+            {
+                var rootFrom = FindRoot(edge.From);
+                var rootTo = FindRoot(edge.To);
+
+                if (rootFrom == rootTo) return;
+
+                Console.WriteLine(edge);
+                parents[rootFrom] = rootTo;
+            });
+
+            int FindRoot(int node)
+            {
+                while (parents[node] != node)
+                {
+                    node = parents[node];
+                }
+                return node;
+            }
+        }
+
+        public static void MSTPrim(List<Edge> graph)
+        {
+            Dictionary<int,List<Edge>> dict = graph.Aggregate(new Dictionary<int,List<Edge>>(),(acc,edge) =>
+            {
+                if (!acc.ContainsKey(edge.From))
+                {
+                    acc.Add(edge.From, new List<Edge>());
+                }
+                if (!acc.ContainsKey(edge.To))
+                {
+                    acc.Add(edge.To, new List<Edge>());
+                }
+                acc[edge.From].Add(edge);
+                return acc;
+            });
+            var visited = new bool[dict.Count];
+            var priorityQueue = new PriorityQueue<Edge,int>();
+            dict.Keys.Order().ForEach(Prim);            
+
+            void Prim(int startNode)
+            {
+                if (visited[startNode]) return;
+                var node = dict[startNode];
+                visited[startNode] = true;
+                node.ForEach(el => priorityQueue.Enqueue(el, el.Weight));
+                while(priorityQueue.Count > 0)
+                {
+                    var smallestEdge = priorityQueue.Dequeue();
+                    if (visited[smallestEdge.To]) continue;
+                    Console.WriteLine(smallestEdge);
+                    visited[smallestEdge.To] = true;
+                    dict[smallestEdge.To].ForEach(el => priorityQueue.Enqueue(el,el.Weight));
+                }
+            }
+            
         }
 
         public static void TopologicalSort(List<int>[] graph)

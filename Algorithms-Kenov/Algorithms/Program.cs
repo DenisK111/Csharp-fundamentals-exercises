@@ -37,7 +37,10 @@ namespace Algorithms
             //Graphs.MSTKruskal(Graphs.WeightedEdgeGraph);
             //Console.WriteLine("--------------------");
             //Graphs.MSTPrim(Graphs.WeightedEdgeGraph);
-            Graphs.Dijkstra(Graphs.WeightedEdgeGraph);
+            //Graphs.Dijkstra(Graphs.WeightedEdgeGraph);
+            //Graphs.StronglyConnectedComponents(Graphs.StronglyConnectedComponentsGraph);
+            //Graphs.BiConnectivity(Graphs.RepresentUndirectedGraph());
+            Graphs.MaxFlow(Graphs.MaxFlowGraph);
         }
 
         static int ArraySum(int[] array, int index)

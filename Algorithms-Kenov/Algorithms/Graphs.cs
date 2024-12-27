@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,34 @@ namespace Algorithms
 
     public static class Graphs
     {
+        public static readonly List<int>[] StronglyConnectedComponentsGraph =
+        {
+            new List<int> {1,11,13 },
+            new List<int> {6 },
+            new List<int> {0 },
+            new List<int> {4 },
+            new List<int> {3,6 },
+            new List<int> {13 },
+            new List<int> {0, 11 },
+            new List<int> {12 },
+            new List<int> {6, 11 },
+            new List<int> {0 },
+            new List<int> {4,6,10 },
+            new List<int> {},
+            new List<int> {7},
+            new List<int> {2, 9},
+        };
+
+        public static readonly int[][] MaxFlowGraph =
+        {
+            [0,10,20,0,0,0],
+            [0,0,2,3,8,0],
+            [0,0,0,0,9,0],
+            [0,0,0,0,0,10],
+            [0,0,0,6,0,10],
+            [0,0,0,0,0,0],
+        }; 
+
         public static readonly List<Edge> WeightedEdgeGraph = new List<Edge>()
         {
             new Edge() { From = 0, To = 1, Weight = 4 },
@@ -44,16 +73,13 @@ namespace Algorithms
         {
             var graph = new List<int>[]
             {
-                new List<int> {3, 6},
+                new List<int> {3},
                 new List<int> {2, 3, 4, 5, 6},
                 new List<int> {1, 4, 5},
                 new List<int> {0, 1, 5},
                 new List<int> {1, 2, 6},
                 new List<int> {1, 2, 3},
-                new List<int> {0, 1, 4},
-                new List<int> (),
-                new List<int> {9 },
-                new List<int> {8 },
+                new List<int> {1, 4},                
             };
 
             return graph;
@@ -199,6 +225,168 @@ namespace Algorithms
             distances.ForEach(Console.WriteLine);
         }
 
+        public static void StronglyConnectedComponents(List<int>[] graph)
+        {
+            var stronglyConnectedComponents = new List<List<int>>();    
+            var reversedGraph = BuildReverseGraph(graph);
+            Stack<int> stack = new Stack<int>();
+            bool[] visited = new bool[graph.Length];
+            graph.Select((_,i) => i).ForEach(DFS);
+            visited = new bool[graph.Length];
+            while(stack.Count > 0)
+            {
+                var node = stack.Pop();
+                if (!visited[node])
+                {
+                    stronglyConnectedComponents.Add(new List<int>());
+                    ReverseDFS(node);
+                }
+            }
+
+            void DFS(int node)
+            {
+                if (visited[node]) return;
+                visited[node] = true;
+                graph[node].ForEach(DFS);
+                stack.Push(node);
+            }
+
+            void ReverseDFS(int node)
+            {
+                if (visited[node]) return;
+                visited[node] = true;
+                stronglyConnectedComponents.Last().Add(node);
+                reversedGraph[node].ForEach(ReverseDFS);
+            }
+
+            List<int>[] BuildReverseGraph(List<int>[] graph)
+            {
+                List<int>[] reversedGraph = Enumerable.Range(0, graph.Length).Select(_ => new List<int>()).ToArray();
+                (from indexedNode in graph.Select((node, index) => (node, index))
+                 from child in indexedNode.node
+                 select (indexedNode.index, child))
+                .ForEach(tuple => reversedGraph[tuple.child].Add(tuple.index));
+
+                return reversedGraph;
+            }
+
+            Console.WriteLine("Strongly Connected Components: ");
+            stronglyConnectedComponents.Select((n,i) => (n,i)).ForEach(ni =>            
+                Console.WriteLine($"{ni.i} -> {string.Join(" ",ni.n)}"));        
+        }
+
+        public static void BiConnectivity(List<int>[] graph)
+        {
+            bool[] visited = new bool[graph.Length];
+            int[] depths = new int[graph.Length];
+            int[] lowpoints = new int[graph.Length];
+            int[] parents = Enumerable.Range(0,graph.Length).ToArray();
+
+            graph.Select((_, i) => i).ForEach(index =>
+            {
+                if (!visited[index]) FindArticulationPoints(index, 0);
+            });
+            
+
+            void FindArticulationPoints(int node,int d)
+            {
+                visited[node] = true;
+                depths[node] = d;
+                lowpoints[node] = d;
+                int childCount = 0;
+                bool isArticulation = false;
+                foreach (var childNode in graph[node])
+                {
+                    if (!visited[childNode])
+                    {
+                        parents[childNode] = node;
+                        FindArticulationPoints (childNode, d + 1);
+                        childCount++;
+                        if (lowpoints[childNode] >= depths[node])
+                        {
+                            isArticulation = true;
+                        }
+                        lowpoints[node] = Math.Min(lowpoints[node], lowpoints[childNode]);
+                    }
+
+                    else if (childNode != parents[node])
+                    {
+                        lowpoints[node] = Math.Min(lowpoints[node], depths[childNode]);
+                    }
+                }
+
+                if (parents[node] != node && isArticulation || parents[node] == node && childCount > 1)
+                {
+                    Console.WriteLine(node);
+                }
+            }
+
+        }    
+
+        public static void MaxFlow(int[][] graph)
+        {
+            int[] parents = Enumerable.Repeat(-1, graph.Length).ToArray();
+
+            int start = 0;
+            var end = graph.Length -1;
+            var maxFlow = 0;
+
+            while (BFS(start, end))
+            {
+                var pathFlow = int.MaxValue;
+                var currentNode = end;
+                while (currentNode != start)
+                {
+                    var prevNote = parents[currentNode];
+                    var currentFlow = graph[prevNote][currentNode];
+                    if (currentFlow > 0 && currentFlow < pathFlow)
+                    {
+                        pathFlow = currentFlow;
+                    }
+
+                    currentNode = prevNote;
+                }
+
+                maxFlow += pathFlow;
+
+                currentNode = end;
+                while(currentNode != start)
+                {
+                    var prevNote = parents[currentNode];
+                    graph[prevNote][currentNode] -= pathFlow;
+                    graph[currentNode][prevNote] += pathFlow;
+                    currentNode = prevNote;
+                }                
+            }
+
+            Console.WriteLine(maxFlow);
+
+            bool BFS(int start, int end)
+            {
+                var visited = new bool[graph.Length];
+                Queue<int> queue = new Queue<int>();
+                queue.Enqueue(start);
+                visited[start] = true;
+                while(queue.Count > 0)
+                {
+                    var node = queue.Dequeue();
+                    
+                    for (int child = 0; child < graph[node].Length; child++)
+                    {
+                        if (graph[node][child] > 0 && !visited[child])
+                        {
+                            queue.Enqueue(child);
+                            parents[child] = node;
+                            visited[child] = true;
+                        }
+                    }
+                }
+
+                return visited[end];
+            }           
+
+        }
+
         public static void TopologicalSort(List<int>[] graph)
         {
             var resultList = new List<int>();
@@ -248,9 +436,7 @@ namespace Algorithms
             else
             {
                 resultList.ForEach(el => Console.Write(el + " "));
-            }
-
-            
+            }            
         }
 
         private static Dictionary<int,List<Edge>> GraphToDctionary(List<Edge> graph) =>        
@@ -267,6 +453,5 @@ namespace Algorithms
                 acc[edge.From].Add(edge);
                 return acc;
             });       
-       
     }
 }

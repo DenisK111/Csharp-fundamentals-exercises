@@ -496,7 +496,8 @@ public static class GraphExercises
         }
 
         var distances = Enumerable.Range(0, graph.Count).Select((el) => el == 0 ? 1 : double.MinValue).ToArray();
-        var priorityQueue = new SortedSet<int>(Comparer<int>.Create((f, s) => distances[s].CompareTo(distances[f])))
+        var comparer = Comparer<int>.Create((f, s) => distances[s].CompareTo(distances[f]));
+        var priorityQueue = new SortedSet<int>(comparer)
         {
             graph.Keys.First(k => k == start)
         };
@@ -504,7 +505,7 @@ public static class GraphExercises
         while(priorityQueue.Count > 0)
         {
             var min = priorityQueue.Min;
-           var result =  priorityQueue.Remove(min);
+            priorityQueue.Remove(min);
 
             graph[min].ForEach(edge =>
             {
@@ -518,13 +519,12 @@ public static class GraphExercises
                 if (newDistance > distances[otherNode])
                 {
                     distances[otherNode] = newDistance;
-                    priorityQueue = new SortedSet<int>(priorityQueue, Comparer<int>.Create((f, s) => distances[s].CompareTo(distances[f])));
+                    priorityQueue = new SortedSet<int>(priorityQueue, comparer);
                     parents[otherNode] = min;
                 }
             });           
 
-        }
-        
+        }       
 
         Console.WriteLine(Math.Round(distances[end] * 100,2));
         List<int> path = new List<int>();

@@ -40,7 +40,8 @@ namespace Algorithms
             //Graphs.Dijkstra(Graphs.WeightedEdgeGraph);
             //Graphs.StronglyConnectedComponents(Graphs.StronglyConnectedComponentsGraph);
             //Graphs.BiConnectivity(Graphs.RepresentUndirectedGraph());
-            Graphs.MaxFlow(Graphs.MaxFlowGraph);
+            //Graphs.MaxFlow(Graphs.MaxFlowGraph);         
+              GraphExercises.MostReliablePath();
         }
 
         static int ArraySum(int[] array, int index)

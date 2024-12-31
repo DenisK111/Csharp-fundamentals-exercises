@@ -41,7 +41,8 @@ namespace Algorithms
             //Graphs.StronglyConnectedComponents(Graphs.StronglyConnectedComponentsGraph);
             //Graphs.BiConnectivity(Graphs.RepresentUndirectedGraph());
             //Graphs.MaxFlow(Graphs.MaxFlowGraph);         
-              GraphExercises.MostReliablePath();
+            //GraphExercises.MostReliablePath();
+            ExamPreparation.ShootingRange();
         }
 
         static int ArraySum(int[] array, int index)

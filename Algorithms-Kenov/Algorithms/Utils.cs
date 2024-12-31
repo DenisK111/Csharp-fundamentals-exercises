@@ -23,5 +23,12 @@ namespace Algorithms
         {
             foreach (var item in source) action(item);
         }
+
+        public static T ReadT<T>(Func<string,T> func) => func(Console.ReadLine()!);
+        public static int ReadInt() => ReadT(int.Parse);
+        public static int[] ReadIntArray() => Console.ReadLine()!.Split(' ').Select(int.Parse).ToArray();
+        public static string EnumerableAsString<T>(IEnumerable<T> source, string separator = " ") => string.Join(separator, source);
+        public static void Print(object item) => Console.WriteLine(item);
+        public static void PrintEnumerable<T>(IEnumerable<T> source, string separator = " ") => Print(EnumerableAsString(source,separator));
     }
 }
